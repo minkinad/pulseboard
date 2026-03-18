@@ -23,6 +23,7 @@ import { LineChartWidget } from "@/components/widgets/line-chart-widget";
 import { PieChartWidget } from "@/components/widgets/pie-chart-widget";
 import { SummaryWidget } from "@/components/widgets/summary-widget";
 import { TransactionsWidget } from "@/components/widgets/transactions-widget";
+import { widgetSizeClassNames } from "@/lib/constants";
 import { useDashboardStore } from "@/store/dashboard-store";
 import type { DashboardComputation, ThemeMode, WidgetLayoutItem } from "@/types/dashboard";
 
@@ -73,11 +74,10 @@ function SortableWidget({
   })();
 
   return (
-    <div ref={setNodeRef}>
+    <div ref={setNodeRef} style={style} className={widgetSizeClassNames[widget.size]}>
       <WidgetFrame
         widget={widget}
         isDragging={isDragging}
-        style={style}
         attributes={attributes}
         listeners={listeners}
         onGrow={() => cycleWidgetSize(widget.id, 1)}
@@ -117,7 +117,7 @@ export function DashboardGrid({ theme, data }: DashboardGridProps) {
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={widgets.map((widget) => widget.id)} strategy={rectSortingStrategy}>
-        <section className="grid grid-cols-12 gap-4">
+        <section className="grid grid-cols-12 gap-5">
           {widgets.map((widget) => (
             <SortableWidget key={widget.id} widget={widget} theme={theme} data={data} />
           ))}

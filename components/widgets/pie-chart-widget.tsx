@@ -56,7 +56,7 @@ export function PieChartWidget({ series, theme }: PieChartWidgetProps) {
         {series.map((datum, index) => (
           <div
             key={datum.label}
-            className="flex items-center justify-between rounded-2xl border border-stroke/15 bg-surface/70 px-4 py-3"
+            className="soft-card flex items-center justify-between px-4 py-3"
           >
             <div className="flex items-center gap-3">
               <span

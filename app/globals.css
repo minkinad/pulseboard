@@ -4,49 +4,65 @@
 
 :root {
   color-scheme: light;
-  --font-space-grotesk: "Space Grotesk", "Avenir Next Condensed", "Trebuchet MS", sans-serif;
   --font-manrope: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
-  --background: 244 243 239;
-  --foreground: 14 25 33;
-  --surface: 255 251 245;
-  --muted: 240 233 220;
+  --font-space-grotesk: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", "SFMono-Regular", monospace;
+  --background: 247 248 247;
+  --foreground: 30 35 43;
+  --surface: 252 253 252;
+  --muted: 240 244 247;
   --card: 255 255 255;
-  --stroke: 141 140 133;
-  --accent: 15 118 110;
-  --success: 22 163 74;
-  --danger: 220 38 38;
+  --stroke: 211 220 228;
+  --accent: 67 134 255;
+  --success: 76 200 155;
+  --danger: 220 92 92;
 }
 
 .dark {
   color-scheme: dark;
-  --background: 11 18 24;
-  --foreground: 236 240 236;
-  --surface: 17 28 36;
-  --muted: 28 42 52;
-  --card: 16 26 34;
-  --stroke: 112 132 146;
-  --accent: 45 212 191;
-  --success: 74 222 128;
+  --background: 12 18 26;
+  --foreground: 224 232 240;
+  --surface: 17 25 35;
+  --muted: 23 34 47;
+  --card: 18 28 39;
+  --stroke: 57 73 92;
+  --accent: 98 158 255;
+  --success: 94 218 171;
   --danger: 248 113 113;
 }
 
 * {
-  border-color: rgb(var(--stroke) / 0.18);
+  border-color: rgb(var(--stroke) / 0.38);
+  box-sizing: border-box;
 }
 
 html {
   min-height: 100%;
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgb(250 204 21 / 0.12), transparent 30%),
-    radial-gradient(circle at top right, rgb(var(--accent) / 0.16), transparent 32%),
+    radial-gradient(circle at 92% -2%, rgb(var(--accent) / 0.14), transparent 30%),
+    radial-gradient(circle at -4% -6%, rgb(var(--success) / 0.14), transparent 28%),
     linear-gradient(180deg, rgb(var(--background)), rgb(var(--background)));
   color: rgb(var(--foreground));
   font-family: var(--font-manrope), sans-serif;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top right, rgb(var(--accent) / 0.08), transparent 24%),
+    radial-gradient(circle at left top, rgb(var(--success) / 0.08), transparent 28%);
+  opacity: 0.9;
+  z-index: -1;
 }
 
 ::selection {
@@ -58,8 +74,8 @@ body {
   h2,
   h3,
   h4 {
-    font-family: var(--font-space-grotesk), sans-serif;
-    letter-spacing: -0.03em;
+    font-family: var(--font-manrope), sans-serif;
+    letter-spacing: -0.035em;
   }
 
   button,
@@ -71,10 +87,74 @@ body {
 
 @layer components {
   .surface-panel {
-    @apply rounded-[28px] border border-stroke/15 bg-card/85 shadow-soft backdrop-blur-xl;
+    @apply relative rounded-[24px] border bg-card/75 shadow-soft backdrop-blur-xl;
+    border-color: rgb(var(--stroke) / 0.68);
+  }
+
+  .surface-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(var(--accent) / 0.22),
+      transparent
+    );
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .soft-card {
+    @apply rounded-[20px] border backdrop-blur-sm;
+    border-color: rgb(var(--stroke) / 0.62);
+    background: rgb(var(--card) / 0.88);
   }
 
   .control-base {
-    @apply inline-flex items-center gap-2 rounded-2xl border border-stroke/15 bg-surface/80 px-4 py-2 text-sm font-medium text-foreground transition hover:border-accent/40 hover:bg-surface;
+    @apply inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium text-foreground transition;
+    border-color: rgb(var(--stroke) / 0.72);
+    background: rgb(var(--card) / 0.76);
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.05);
+  }
+
+  .control-base:hover {
+    border-color: rgb(var(--accent) / 0.34);
+    background: rgb(var(--surface) / 0.92);
+  }
+
+  .tiny-label {
+    color: rgb(var(--foreground) / 0.56);
+    font-family: var(--font-mono), monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .mono-pill {
+    @apply inline-flex items-center gap-2 rounded-full border px-3 py-1.5;
+    border-color: rgb(var(--stroke) / 0.7);
+    background: rgb(var(--card) / 0.76);
+    color: rgb(var(--foreground) / 0.74);
+    font-family: var(--font-mono), monospace;
+    font-size: 0.72rem;
+  }
+
+  .field-shell {
+    @apply rounded-[20px] border backdrop-blur-sm;
+    border-color: rgb(var(--stroke) / 0.72);
+    background: rgb(var(--card) / 0.78);
+  }
+
+  .section-divider {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(var(--stroke) / 0.9),
+      transparent
+    );
   }
 }

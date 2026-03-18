@@ -8,7 +8,7 @@ const themeScript = `
   (function () {
     try {
       var persisted = localStorage.getItem('pulseboard-dashboard');
-      var theme = 'dark';
+      var theme = 'light';
       if (persisted) {
         var parsed = JSON.parse(persisted);
         theme = parsed && parsed.state && parsed.state.theme ? parsed.state.theme : theme;
@@ -17,9 +17,9 @@ const themeScript = `
       document.documentElement.dataset.theme = theme;
       document.documentElement.style.colorScheme = theme;
     } catch (error) {
-      document.documentElement.classList.add('dark');
-      document.documentElement.dataset.theme = 'dark';
-      document.documentElement.style.colorScheme = 'dark';
+      document.documentElement.classList.remove('dark');
+      document.documentElement.dataset.theme = 'light';
+      document.documentElement.style.colorScheme = 'light';
     }
   })();
 `;

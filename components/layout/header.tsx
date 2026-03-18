@@ -20,8 +20,8 @@ export function Header({ onMenuClick, onExport, onRefresh, livePulse }: HeaderPr
   const setSearch = useDashboardStore((state) => state.setSearch);
 
   return (
-    <header className="sticky top-0 z-20 border-b border-stroke/15 bg-background/80 backdrop-blur-2xl">
-      <div className="mx-auto flex max-w-[1500px] items-center gap-3 px-4 py-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-20 px-4 pt-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-[1180px] items-center gap-3 rounded-[24px] border border-stroke/60 bg-card/70 px-4 py-3 shadow-soft backdrop-blur-2xl sm:px-5">
         <button
           type="button"
           className="control-base lg:hidden"
@@ -40,15 +40,20 @@ export function Header({ onMenuClick, onExport, onRefresh, livePulse }: HeaderPr
               startTransition(() => setSearch(next));
             }}
             placeholder="Search counterparties, notes, or categories"
-            className="h-12 w-full rounded-2xl border border-stroke/15 bg-card/80 pl-11 pr-4 text-sm shadow-sm transition placeholder:text-foreground/40 focus:border-accent/40"
+            className="field-shell h-12 w-full pl-11 pr-4 text-sm transition placeholder:text-foreground/40 focus:border-accent/40 focus:bg-card/95"
             aria-label="Search dashboard data"
           />
         </div>
 
-        <div className="hidden items-center gap-2 rounded-2xl border border-accent/15 bg-accent/10 px-3 py-2 text-sm text-foreground/80 md:flex">
+        <div className="hidden items-center gap-2 rounded-full border border-stroke/65 bg-card/78 px-3 py-2 text-sm text-foreground/80 md:flex">
           <span className="inline-flex h-2.5 w-2.5 rounded-full bg-accent animate-pulse-glow" />
           <span>{livePulse.activeStreams} live signals</span>
-          <span className={cn("rounded-full px-2 py-0.5 text-xs font-semibold", livePulse.variance >= 0 ? "bg-success/15 text-success" : "bg-danger/15 text-danger")}>
+          <span
+            className={cn(
+              "rounded-full px-2 py-0.5 font-mono text-[11px] font-medium",
+              livePulse.variance >= 0 ? "bg-success/15 text-success" : "bg-danger/15 text-danger",
+            )}
+          >
             {livePulse.variance >= 0 ? "+" : ""}
             {livePulse.variance.toFixed(1)}%
           </span>
@@ -67,7 +72,7 @@ export function Header({ onMenuClick, onExport, onRefresh, livePulse }: HeaderPr
           <button type="button" className="control-base px-3" aria-label="Notifications">
             <Bell className="h-4 w-4" />
           </button>
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent text-sm font-semibold text-white shadow-glow">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-stroke/60 bg-card/88 text-sm font-semibold text-foreground shadow-soft">
             AB
           </div>
         </div>

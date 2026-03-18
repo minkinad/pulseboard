@@ -25,8 +25,8 @@ export function TransactionsWidget({ transactions }: TransactionsWidgetProps) {
   }
 
   return (
-    <div className="h-full overflow-hidden rounded-[26px] border border-stroke/15 bg-surface/55">
-      <div className="grid grid-cols-[1.4fr_0.8fr_0.9fr_0.8fr] gap-4 border-b border-stroke/15 px-5 py-3 text-xs uppercase tracking-[0.24em] text-foreground/50">
+    <div className="h-full overflow-hidden rounded-[22px] border border-stroke/60 bg-card/58">
+      <div className="grid grid-cols-[1.4fr_0.8fr_0.9fr_0.8fr] gap-4 border-b border-stroke/55 bg-card/72 px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/50">
         <span>Counterparty</span>
         <span>Category</span>
         <span>Date</span>
@@ -40,12 +40,12 @@ export function TransactionsWidget({ transactions }: TransactionsWidgetProps) {
           return (
             <div
               key={transaction.id}
-              className="grid grid-cols-[1.4fr_0.8fr_0.9fr_0.8fr] gap-4 border-b border-stroke/10 px-5 py-4 text-sm last:border-b-0"
+              className="grid grid-cols-[1.4fr_0.8fr_0.9fr_0.8fr] gap-4 border-b border-stroke/45 px-5 py-4 text-sm last:border-b-0"
             >
               <div className="flex items-start gap-3">
                 <span
                   className={cn(
-                    "mt-1 rounded-2xl p-2",
+                    "mt-1 rounded-2xl border p-2",
                     incoming ? "bg-success/10 text-success" : "bg-danger/10 text-danger",
                   )}
                 >
@@ -57,11 +57,15 @@ export function TransactionsWidget({ transactions }: TransactionsWidgetProps) {
                 </span>
                 <div>
                   <p className="font-semibold">{transaction.counterparty}</p>
-                  <p className="mt-1 text-xs text-foreground/60">{transaction.note}</p>
+                  <p className="mt-1 max-w-[30ch] text-xs leading-5 text-foreground/60">
+                    {transaction.note}
+                  </p>
                 </div>
               </div>
               <div className="pt-1 text-foreground/70">{transaction.category}</div>
-              <div className="pt-1 text-foreground/70">{formatDateWithYear(transaction.date)}</div>
+              <div className="pt-1 font-mono text-[12px] text-foreground/70">
+                {formatDateWithYear(transaction.date)}
+              </div>
               <div className="pt-1 text-right">
                 <p className={cn("font-semibold", incoming ? "text-success" : "text-danger")}>
                   {formatSignedCurrency(amount)}

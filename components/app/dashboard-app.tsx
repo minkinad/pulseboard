@@ -27,7 +27,11 @@ export function DashboardApp() {
   const { status, error, refresh, ...dashboard } = useDashboardData();
 
   return (
-    <div className="min-h-screen bg-dashboard-grid bg-[size:28px_28px]">
+    <div className="relative min-h-screen overflow-hidden">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-dashboard-grid bg-[size:26px_26px] opacity-50" />
+      <div className="pointer-events-none absolute -left-20 top-20 h-72 w-72 rounded-full bg-success/10 blur-3xl" />
+      <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-accent/10 blur-3xl" />
+
       <Sidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -39,7 +43,7 @@ export function DashboardApp() {
         onDeleteLayout={deleteSavedLayout}
       />
 
-      <div className="min-h-screen lg:pl-[300px]">
+      <div className="relative min-h-screen lg:pl-[320px]">
         <Header
           onMenuClick={() => setSidebarOpen(true)}
           onExport={() => downloadTransactionsCsv(dashboard.transactions)}
@@ -47,42 +51,40 @@ export function DashboardApp() {
           livePulse={dashboard.livePulse}
         />
 
-        <main className="px-4 pb-10 pt-5 sm:px-6 lg:px-8">
+        <main className="px-4 pb-16 pt-5 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="mx-auto flex w-full max-w-[1500px] flex-col gap-5"
+            className="mx-auto flex w-full max-w-[1180px] flex-col gap-6"
           >
-            <section className="surface-panel overflow-hidden p-6">
-              <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-                <div className="max-w-2xl">
-                  <p className="text-sm uppercase tracking-[0.3em] text-accent/80">
-                    Executive dashboard
-                  </p>
-                  <h1 className="mt-2 text-3xl font-semibold sm:text-4xl">
+            <section className="surface-panel overflow-hidden px-6 py-7 sm:px-8">
+              <div className="grid gap-6 xl:grid-cols-[1.45fr_0.95fr] xl:items-end">
+                <div className="max-w-3xl">
+                  <p className="tiny-label">Executive dashboard</p>
+                  <h1 className="mt-4 max-w-[18ch] text-[clamp(2rem,4vw,3.45rem)] font-semibold leading-[1.04]">
                     Pulseboard keeps your operating picture live, ordered, and actionable.
                   </h1>
-                  <p className="mt-3 text-sm text-foreground/70 sm:text-base">
+                  <p className="mt-4 max-w-[60ch] text-sm leading-7 text-foreground/70 sm:text-base">
                     Drag widgets, resize the layout, filter your mock finance data, and export
                     exactly the slice you are reviewing.
                   </p>
                 </div>
 
-                <div className="grid gap-3 text-sm text-foreground/70 sm:grid-cols-3">
-                  <div className="rounded-2xl border border-stroke/15 bg-surface/80 p-4">
-                    <p className="text-xs uppercase tracking-[0.24em]">Widgets</p>
-                    <p className="mt-2 text-2xl font-semibold text-foreground">{widgets.length}</p>
+                <div className="grid gap-3 text-sm text-foreground/70 sm:grid-cols-3 xl:grid-cols-1">
+                  <div className="soft-card p-4">
+                    <p className="tiny-label">Widgets</p>
+                    <p className="mt-3 text-3xl font-semibold text-foreground">{widgets.length}</p>
                   </div>
-                  <div className="rounded-2xl border border-stroke/15 bg-surface/80 p-4">
-                    <p className="text-xs uppercase tracking-[0.24em]">Snapshots</p>
-                    <p className="mt-2 text-2xl font-semibold text-foreground">
+                  <div className="soft-card p-4">
+                    <p className="tiny-label">Snapshots</p>
+                    <p className="mt-3 text-3xl font-semibold text-foreground">
                       {savedLayouts.length}
                     </p>
                   </div>
-                  <div className="rounded-2xl border border-stroke/15 bg-surface/80 p-4">
-                    <p className="text-xs uppercase tracking-[0.24em]">Theme</p>
-                    <p className="mt-2 text-2xl font-semibold capitalize text-foreground">
+                  <div className="soft-card p-4">
+                    <p className="tiny-label">Theme</p>
+                    <p className="mt-3 text-3xl font-semibold capitalize text-foreground">
                       {theme}
                     </p>
                   </div>

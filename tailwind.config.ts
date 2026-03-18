@@ -27,16 +27,16 @@ const config: Config = {
       },
       backgroundImage: {
         "dashboard-grid":
-          "linear-gradient(to right, rgb(var(--stroke) / 0.12) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--stroke) / 0.12) 1px, transparent 1px)",
+          "linear-gradient(to right, rgb(var(--stroke) / 0.14) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--stroke) / 0.14) 1px, transparent 1px)",
       },
       boxShadow: {
-        soft: "0 20px 50px rgba(15, 23, 42, 0.12)",
-        glow: "0 12px 40px rgba(15, 118, 110, 0.18)",
+        soft: "0 18px 42px rgba(15, 23, 42, 0.08)",
+        glow: "0 14px 36px rgb(var(--accent) / 0.18)",
       },
       keyframes: {
         pulseGlow: {
-          "0%, 100%": { boxShadow: "0 0 0 0 rgba(15, 118, 110, 0.18)" },
-          "50%": { boxShadow: "0 0 0 14px rgba(15, 118, 110, 0)" },
+          "0%, 100%": { boxShadow: "0 0 0 0 rgb(var(--accent) / 0.2)" },
+          "50%": { boxShadow: "0 0 0 14px rgb(var(--accent) / 0)" },
         },
       },
       animation: {

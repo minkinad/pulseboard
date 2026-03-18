@@ -1,6 +1,6 @@
 "use client";
 
-import { useDeferredValue, useEffect, useEffectEvent, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 
 import financeData from "@/data/finance-data.json";
 import { buildDashboardComputation } from "@/lib/dashboard-data";
@@ -63,26 +63,22 @@ export function useDashboardData() {
     };
   }, [reloadKey]);
 
-  const updateLivePulse = useEffectEvent(() => {
-    setLivePulse((current) => {
-      const drift = (Math.random() * 10 - 5) / 10;
-      const streamDelta = Math.round(Math.random() * 8 - 3);
-
-      return {
-        activeStreams: Math.max(86, current.activeStreams + streamDelta),
-        variance: Number((Math.max(-4.8, Math.min(8.2, current.variance + drift))).toFixed(1)),
-        syncedAt: new Date().toISOString(),
-      };
-    });
-  });
-
   useEffect(() => {
     const timer = window.setInterval(() => {
-      updateLivePulse();
+      setLivePulse((current) => {
+        const drift = (Math.random() * 10 - 5) / 10;
+        const streamDelta = Math.round(Math.random() * 8 - 3);
+
+        return {
+          activeStreams: Math.max(86, current.activeStreams + streamDelta),
+          variance: Number((Math.max(-4.8, Math.min(8.2, current.variance + drift))).toFixed(1)),
+          syncedAt: new Date().toISOString(),
+        };
+      });
     }, 6500);
 
     return () => window.clearInterval(timer);
-  }, [updateLivePulse]);
+  }, []);
 
   const computed = useMemo(
     () =>

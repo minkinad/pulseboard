@@ -25,11 +25,11 @@ function SelectField({
 }) {
   return (
     <label className="flex min-w-[180px] flex-col gap-2 text-sm">
-      <span className="text-xs uppercase tracking-[0.22em] text-foreground/55">{label}</span>
+      <span className="tiny-label">{label}</span>
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-11 rounded-2xl border border-stroke/15 bg-card/80 px-4 text-sm shadow-sm transition focus:border-accent/40"
+        className="field-shell h-11 px-4 text-sm transition focus:border-accent/40 focus:bg-card/95"
       >
         {children}
       </select>
@@ -47,15 +47,15 @@ export function FiltersBar({
   const updateFilter = useDashboardStore((state) => state.updateFilter);
 
   return (
-    <section className="surface-panel p-5">
+    <section className="surface-panel p-5 sm:p-6">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
         <div className="flex items-center gap-3">
-          <span className="rounded-2xl bg-accent/10 p-3 text-accent">
+          <span className="rounded-2xl border border-stroke/60 bg-card/85 p-3 text-accent">
             <SlidersHorizontal className="h-5 w-5" />
           </span>
           <div>
             <h2 className="text-xl font-semibold">Filter the current narrative</h2>
-            <p className="text-sm text-foreground/65">
+            <p className="mt-1 text-sm text-foreground/65">
               {resultCount} matching transactions across the active dashboard slice.
             </p>
           </div>
@@ -73,7 +73,9 @@ export function FiltersBar({
         </div>
       </div>
 
-      <div className="mt-5 flex flex-col gap-4 xl:flex-row xl:flex-wrap">
+      <hr className="section-divider my-5" />
+
+      <div className="flex flex-col gap-4 xl:flex-row xl:flex-wrap">
         <SelectField
           label="Date range"
           value={filters.dateRange}

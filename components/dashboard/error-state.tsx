@@ -8,7 +8,7 @@ interface ErrorStateProps {
 export function ErrorState({ message, onRetry }: ErrorStateProps) {
   return (
     <section className="surface-panel flex min-h-[420px] flex-col items-center justify-center px-6 py-10 text-center">
-      <span className="rounded-3xl bg-danger/10 p-4 text-danger">
+      <span className="rounded-3xl border border-danger/20 bg-danger/10 p-4 text-danger">
         <AlertTriangle className="h-8 w-8" />
       </span>
       <h2 className="mt-5 text-2xl font-semibold">Dashboard data hit a snag</h2>

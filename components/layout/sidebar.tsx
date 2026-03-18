@@ -23,10 +23,10 @@ function SidebarContent({
 }: Omit<SidebarProps, "isOpen">) {
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between border-b border-stroke/15 px-5 py-5">
+      <div className="flex items-center justify-between border-b border-stroke/60 px-5 py-5">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-accent/80">Pulseboard</p>
-          <h2 className="mt-2 text-2xl font-semibold">Analytics cockpit</h2>
+          <p className="tiny-label">Pulseboard</p>
+          <h2 className="mt-3 text-[1.7rem] font-semibold">Analytics cockpit</h2>
         </div>
         <button
           type="button"
@@ -39,8 +39,8 @@ function SidebarContent({
       </div>
 
       <div className="flex-1 overflow-y-auto px-4 py-5">
-        <div className="rounded-[26px] border border-accent/15 bg-accent/10 p-4 text-sm text-foreground/75">
-          <p className="text-xs uppercase tracking-[0.24em] text-accent/80">Live ops</p>
+        <div className="soft-card bg-accent/5 p-4 text-sm text-foreground/75">
+          <p className="tiny-label text-accent/85">Live ops</p>
           <p className="mt-3 text-lg font-semibold text-foreground">
             One place to review spend, drag widgets, and save layouts for different rituals.
           </p>
@@ -56,10 +56,10 @@ function SidebarContent({
                 initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="rounded-3xl border border-transparent px-4 py-3 transition hover:border-stroke/20 hover:bg-surface/70"
+                className="soft-card px-4 py-3 transition hover:border-accent/25 hover:bg-card/95"
               >
                 <div className="flex items-center gap-3">
-                  <span className="rounded-2xl bg-surface/90 p-2 text-accent shadow-glow">
+                  <span className="rounded-2xl border border-stroke/55 bg-card/90 p-2 text-accent shadow-sm">
                     <Icon className="h-4 w-4" />
                   </span>
                   <div>
@@ -74,20 +74,20 @@ function SidebarContent({
 
         <div className="mt-8">
           <div className="flex items-center justify-between px-1">
-            <h3 className="text-xs uppercase tracking-[0.24em] text-foreground/55">Saved layouts</h3>
+            <h3 className="tiny-label">Saved layouts</h3>
             <PanelLeftClose className="h-4 w-4 text-foreground/45" />
           </div>
 
           <div className="mt-3 space-y-3">
             {savedLayouts.length === 0 ? (
-              <div className="rounded-3xl border border-dashed border-stroke/20 bg-surface/55 p-4 text-sm text-foreground/65">
+              <div className="rounded-[20px] border border-dashed border-stroke/65 bg-card/50 p-4 text-sm text-foreground/65">
                 Save your first layout snapshot from the filter bar to keep different dashboard setups.
               </div>
             ) : (
               savedLayouts.map((layout) => (
                 <div
                   key={layout.id}
-                  className="rounded-3xl border border-stroke/15 bg-surface/70 p-4"
+                  className="soft-card p-4"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
@@ -126,7 +126,7 @@ function SidebarContent({
 export function Sidebar(props: SidebarProps) {
   return (
     <>
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[300px] border-r border-stroke/15 bg-background/80 backdrop-blur-2xl lg:block">
+      <aside className="fixed inset-y-4 left-4 z-30 hidden w-[300px] overflow-hidden rounded-[28px] border border-stroke/65 bg-card/68 shadow-soft backdrop-blur-2xl lg:block">
         <SidebarContent {...props} />
       </aside>
 
@@ -147,7 +147,7 @@ export function Sidebar(props: SidebarProps) {
               animate={{ x: 0 }}
               exit={{ x: -340 }}
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
-              className="fixed inset-y-0 left-0 z-50 w-[300px] border-r border-stroke/15 bg-background shadow-soft backdrop-blur-2xl lg:hidden"
+              className="fixed inset-y-3 left-3 z-50 w-[300px] overflow-hidden rounded-[28px] border border-stroke/65 bg-card shadow-soft backdrop-blur-2xl lg:hidden"
             >
               <SidebarContent {...props} />
             </motion.aside>
