@@ -1,0 +1,99 @@
+# Pulseboard Dashboard
+
+Production-ready interactive analytics dashboard built with Next.js App Router, TypeScript, Tailwind CSS, Zustand, Chart.js, dnd-kit, and Framer Motion.
+
+## Features
+
+- Responsive dashboard shell with sidebar, sticky header, and adaptive widget grid
+- Draggable widgets powered by `@dnd-kit`
+- Widget resize controls with persisted layout state
+- Finance analytics from local mock JSON data
+- Global filtering by date range and category
+- Global search and sorting
+- Dark / light theme toggle with localStorage persistence
+- CSV export for the active transaction slice
+- Saved dashboard layout snapshots
+- Loading skeletons, empty states, and retryable error state
+- Keyboard-friendly drag-and-drop sensor support
+
+## Project structure
+
+```text
+Dashboard/
+├── app/
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── app/
+│   │   ├── dashboard-app.tsx
+│   │   └── providers.tsx
+│   ├── dashboard/
+│   │   ├── dashboard-grid.tsx
+│   │   ├── dashboard-skeleton.tsx
+│   │   ├── error-state.tsx
+│   │   ├── filters-bar.tsx
+│   │   ├── widget-empty-state.tsx
+│   │   └── widget-frame.tsx
+│   ├── layout/
+│   │   ├── header.tsx
+│   │   └── sidebar.tsx
+│   ├── ui/
+│   │   └── theme-toggle.tsx
+│   └── widgets/
+│       ├── bar-chart-widget.tsx
+│       ├── line-chart-widget.tsx
+│       ├── pie-chart-widget.tsx
+│       ├── summary-widget.tsx
+│       └── transactions-widget.tsx
+├── data/
+│   └── finance-data.json
+├── hooks/
+│   └── use-dashboard-data.ts
+├── lib/
+│   ├── chart.ts
+│   ├── constants.ts
+│   ├── dashboard-data.ts
+│   ├── export.ts
+│   ├── format.ts
+│   └── utils.ts
+├── store/
+│   └── dashboard-store.ts
+├── types/
+│   └── dashboard.ts
+├── .eslintrc.json
+├── .gitignore
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+├── tailwind.config.ts
+├── tsconfig.json
+└── README.md
+```
+
+## Install
+
+```bash
+npm install
+```
+
+## Run locally
+
+```bash
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+## Production build
+
+```bash
+npm run build
+npm run start
+```
+
+## Notes
+
+- Theme, filters, widgets layout, and saved layout snapshots are persisted in localStorage.
+- The mock dataset is anchored to the latest transaction date so date filters stay meaningful.
+- CSV export always uses the currently filtered transaction list.
