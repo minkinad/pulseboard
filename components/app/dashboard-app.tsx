@@ -27,11 +27,7 @@ export function DashboardApp() {
   const { status, error, refresh, ...dashboard } = useDashboardData();
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-dashboard-grid bg-[size:26px_26px] opacity-50" />
-      <div className="pointer-events-none absolute -left-20 top-20 h-72 w-72 rounded-full bg-success/10 blur-3xl" />
-      <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-accent/10 blur-3xl" />
-
+    <div className="min-h-screen bg-white">
       <Sidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -43,7 +39,7 @@ export function DashboardApp() {
         onDeleteLayout={deleteSavedLayout}
       />
 
-      <div className="relative min-h-screen lg:pl-[320px]">
+      <div className="min-h-screen lg:pl-[288px]">
         <Header
           onMenuClick={() => setSidebarOpen(true)}
           onExport={() => downloadTransactionsCsv(dashboard.transactions)}
@@ -51,42 +47,38 @@ export function DashboardApp() {
           livePulse={dashboard.livePulse}
         />
 
-        <main className="px-4 pb-16 pt-5 sm:px-6 lg:px-8">
+        <main className="px-4 pb-12 pt-5 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="mx-auto flex w-full max-w-[1180px] flex-col gap-6"
           >
-            <section className="surface-panel overflow-hidden px-6 py-7 sm:px-8">
-              <div className="grid gap-6 xl:grid-cols-[1.45fr_0.95fr] xl:items-end">
+            <section className="surface-panel px-6 py-6 sm:px-8">
+              <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
                 <div className="max-w-3xl">
-                  <p className="tiny-label">Executive dashboard</p>
-                  <h1 className="mt-4 max-w-[18ch] text-[clamp(2rem,4vw,3.45rem)] font-semibold leading-[1.04]">
-                    Pulseboard keeps your operating picture live, ordered, and actionable.
+                  <p className="tiny-label">Dashboard</p>
+                  <h1 className="mt-3 text-[clamp(1.8rem,4vw,3rem)] font-semibold tracking-[-0.04em] text-slate-950">
+                    Simple analytics overview for your finance flow.
                   </h1>
-                  <p className="mt-4 max-w-[60ch] text-sm leading-7 text-foreground/70 sm:text-base">
-                    Drag widgets, resize the layout, filter your mock finance data, and export
-                    exactly the slice you are reviewing.
+                  <p className="mt-3 max-w-[62ch] text-sm leading-7 text-slate-600 sm:text-base">
+                    A clean, light dashboard with flexible widgets, quick filters, and export for
+                    the slice you are reviewing right now.
                   </p>
                 </div>
 
-                <div className="grid gap-3 text-sm text-foreground/70 sm:grid-cols-3 xl:grid-cols-1">
+                <div className="grid gap-3 text-sm text-slate-600 sm:grid-cols-3 lg:grid-cols-1">
                   <div className="soft-card p-4">
                     <p className="tiny-label">Widgets</p>
-                    <p className="mt-3 text-3xl font-semibold text-foreground">{widgets.length}</p>
+                    <p className="mt-3 text-3xl font-semibold text-slate-950">{widgets.length}</p>
                   </div>
                   <div className="soft-card p-4">
                     <p className="tiny-label">Snapshots</p>
-                    <p className="mt-3 text-3xl font-semibold text-foreground">
-                      {savedLayouts.length}
-                    </p>
+                    <p className="mt-3 text-3xl font-semibold text-slate-950">{savedLayouts.length}</p>
                   </div>
                   <div className="soft-card p-4">
-                    <p className="tiny-label">Theme</p>
-                    <p className="mt-3 text-3xl font-semibold capitalize text-foreground">
-                      {theme}
-                    </p>
+                    <p className="tiny-label">Mode</p>
+                    <p className="mt-3 text-3xl font-semibold text-slate-950">Light</p>
                   </div>
                 </div>
               </div>

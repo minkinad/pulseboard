@@ -7,28 +7,28 @@
   --font-manrope: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
   --font-space-grotesk: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", "JetBrains Mono", "SFMono-Regular", monospace;
-  --background: 247 248 247;
-  --foreground: 30 35 43;
-  --surface: 252 253 252;
-  --muted: 240 244 247;
+  --background: 255 255 255;
+  --foreground: 15 23 42;
+  --surface: 255 255 255;
+  --muted: 248 250 252;
   --card: 255 255 255;
-  --stroke: 211 220 228;
-  --accent: 67 134 255;
-  --success: 76 200 155;
-  --danger: 220 92 92;
+  --stroke: 226 232 240;
+  --accent: 15 23 42;
+  --success: 22 163 74;
+  --danger: 220 38 38;
 }
 
 .dark {
-  color-scheme: dark;
-  --background: 12 18 26;
-  --foreground: 224 232 240;
-  --surface: 17 25 35;
-  --muted: 23 34 47;
-  --card: 18 28 39;
-  --stroke: 57 73 92;
-  --accent: 98 158 255;
-  --success: 94 218 171;
-  --danger: 248 113 113;
+  color-scheme: light;
+  --background: 255 255 255;
+  --foreground: 15 23 42;
+  --surface: 255 255 255;
+  --muted: 248 250 252;
+  --card: 255 255 255;
+  --stroke: 226 232 240;
+  --accent: 15 23 42;
+  --success: 22 163 74;
+  --danger: 220 38 38;
 }
 
 * {
@@ -44,25 +44,10 @@ html {
 
 body {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 92% -2%, rgb(var(--accent) / 0.14), transparent 30%),
-    radial-gradient(circle at -4% -6%, rgb(var(--success) / 0.14), transparent 28%),
-    linear-gradient(180deg, rgb(var(--background)), rgb(var(--background)));
+  background: rgb(var(--background));
   color: rgb(var(--foreground));
   font-family: var(--font-manrope), sans-serif;
   overflow-x: hidden;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at top right, rgb(var(--accent) / 0.08), transparent 24%),
-    radial-gradient(circle at left top, rgb(var(--success) / 0.08), transparent 28%);
-  opacity: 0.9;
-  z-index: -1;
 }
 
 ::selection {
@@ -87,74 +72,52 @@ body::before {
 
 @layer components {
   .surface-panel {
-    @apply relative rounded-[24px] border bg-card/75 shadow-soft backdrop-blur-xl;
-    border-color: rgb(var(--stroke) / 0.68);
-  }
-
-  .surface-panel::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgb(var(--accent) / 0.22),
-      transparent
-    );
-    opacity: 0.9;
-    pointer-events: none;
+    @apply rounded-2xl border bg-card;
+    border-color: rgb(var(--stroke));
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
   }
 
   .soft-card {
-    @apply rounded-[20px] border backdrop-blur-sm;
-    border-color: rgb(var(--stroke) / 0.62);
-    background: rgb(var(--card) / 0.88);
+    @apply rounded-xl border bg-card;
+    border-color: rgb(var(--stroke));
   }
 
   .control-base {
-    @apply inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium text-foreground transition;
-    border-color: rgb(var(--stroke) / 0.72);
-    background: rgb(var(--card) / 0.76);
-    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.05);
+    @apply inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium text-foreground transition;
+    border-color: rgb(var(--stroke));
+    background: rgb(var(--card));
   }
 
   .control-base:hover {
-    border-color: rgb(var(--accent) / 0.34);
-    background: rgb(var(--surface) / 0.92);
+    background: rgb(var(--muted));
   }
 
   .tiny-label {
-    color: rgb(var(--foreground) / 0.56);
+    color: rgb(var(--foreground) / 0.55);
     font-family: var(--font-mono), monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
 
   .mono-pill {
     @apply inline-flex items-center gap-2 rounded-full border px-3 py-1.5;
-    border-color: rgb(var(--stroke) / 0.7);
-    background: rgb(var(--card) / 0.76);
+    border-color: rgb(var(--stroke));
+    background: rgb(var(--muted));
     color: rgb(var(--foreground) / 0.74);
     font-family: var(--font-mono), monospace;
     font-size: 0.72rem;
   }
 
   .field-shell {
-    @apply rounded-[20px] border backdrop-blur-sm;
-    border-color: rgb(var(--stroke) / 0.72);
-    background: rgb(var(--card) / 0.78);
+    @apply rounded-md border;
+    border-color: rgb(var(--stroke));
+    background: rgb(var(--card));
   }
 
   .section-divider {
     height: 1px;
     border: 0;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgb(var(--stroke) / 0.9),
-      transparent
-    );
+    background: rgb(var(--stroke));
   }
 }

@@ -30,13 +30,13 @@ export function WidgetFrame({
       layout
       className={cn(
         "surface-panel flex h-full flex-col overflow-hidden px-5 py-5 sm:px-6 sm:py-6",
-        isDragging && "border-accent/40 shadow-glow",
+        isDragging && "border-slate-300 bg-slate-50",
       )}
     >
-      <div className="mb-5 flex items-start justify-between gap-4 border-b border-stroke/55 pb-4">
+      <div className="mb-5 flex items-start justify-between gap-4 border-b border-stroke pb-4">
         <div>
-          <p className="text-xl font-semibold">{widget.title}</p>
-          <p className="mt-1 max-w-[48ch] text-sm leading-6 text-foreground/65">
+          <p className="text-xl font-semibold text-slate-950">{widget.title}</p>
+          <p className="mt-1 max-w-[48ch] text-sm leading-6 text-slate-500">
             {widget.description}
           </p>
         </div>

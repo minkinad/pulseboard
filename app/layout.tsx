@@ -7,15 +7,9 @@ import { Providers } from "@/components/app/providers";
 const themeScript = `
   (function () {
     try {
-      var persisted = localStorage.getItem('pulseboard-dashboard');
-      var theme = 'light';
-      if (persisted) {
-        var parsed = JSON.parse(persisted);
-        theme = parsed && parsed.state && parsed.state.theme ? parsed.state.theme : theme;
-      }
-      document.documentElement.classList.toggle('dark', theme === 'dark');
-      document.documentElement.dataset.theme = theme;
-      document.documentElement.style.colorScheme = theme;
+      document.documentElement.classList.remove('dark');
+      document.documentElement.dataset.theme = 'light';
+      document.documentElement.style.colorScheme = 'light';
     } catch (error) {
       document.documentElement.classList.remove('dark');
       document.documentElement.dataset.theme = 'light';
@@ -26,7 +20,7 @@ const themeScript = `
 
 export const metadata: Metadata = {
   title: "Pulseboard Dashboard",
-  description: "Interactive analytics dashboard with drag-and-drop widgets and live financial insights.",
+  description: "Clean finance analytics dashboard with drag-and-drop widgets and live insights.",
 };
 
 export default function RootLayout({

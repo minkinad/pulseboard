@@ -46,13 +46,13 @@ export function SummaryWidget({ summary, insight, livePulse }: SummaryWidgetProp
               className="soft-card p-5"
             >
               <p className="tiny-label">{metric.label}</p>
-              <p className="mt-4 text-3xl font-semibold text-foreground">
+              <p className="mt-4 text-3xl font-semibold text-slate-950">
                 {formatValue(metric.value, metric.format)}
               </p>
               <div
                 className={cn(
                   "mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold",
-                  positive ? "bg-success/15 text-success" : "bg-danger/15 text-danger",
+                  positive ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-600",
                 )}
               >
                 <ChangeIcon className="h-3.5 w-3.5" />
@@ -64,27 +64,27 @@ export function SummaryWidget({ summary, insight, livePulse }: SummaryWidgetProp
         })}
       </div>
 
-      <div className="rounded-[22px] border border-stroke/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.78),rgba(244,248,255,0.9))] p-5 dark:bg-[linear-gradient(180deg,rgba(18,28,39,0.92),rgba(20,31,43,0.98))]">
+      <div className="rounded-xl border border-stroke bg-slate-50 p-5">
         <div className="flex items-center gap-3">
-          <span className="rounded-2xl border border-stroke/60 bg-card/85 p-2 text-accent">
+          <span className="rounded-lg border border-stroke bg-white p-2 text-slate-700">
             <Sparkles className="h-5 w-5" />
           </span>
           <div>
-            <p className="tiny-label text-accent/85">Signal</p>
-            <h3 className="text-xl font-semibold">{insight.title}</h3>
+            <p className="tiny-label">Signal</p>
+            <h3 className="text-xl font-semibold text-slate-950">{insight.title}</h3>
           </div>
         </div>
 
-        <p className="mt-4 text-sm leading-6 text-foreground/75">{insight.description}</p>
+        <p className="mt-4 text-sm leading-6 text-slate-600">{insight.description}</p>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <div className="soft-card p-4">
             <p className="tiny-label">Live streams</p>
-            <p className="mt-2 text-2xl font-semibold">{livePulse.activeStreams}</p>
+            <p className="mt-2 text-2xl font-semibold text-slate-950">{livePulse.activeStreams}</p>
           </div>
           <div className="soft-card p-4">
             <p className="tiny-label">Variance</p>
-            <p className="mt-2 text-2xl font-semibold">
+            <p className="mt-2 text-2xl font-semibold text-slate-950">
               {livePulse.variance >= 0 ? "+" : ""}
               {livePulse.variance.toFixed(1)}%
             </p>

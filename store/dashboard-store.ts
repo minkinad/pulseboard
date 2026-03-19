@@ -41,7 +41,7 @@ function arrayMoveLocal<T>(array: T[], fromIndex: number, toIndex: number) {
 export const useDashboardStore = create<DashboardStore>()(
   persist(
     (set, get) => ({
-      theme: "dark",
+      theme: "light",
       filters: defaultFilters,
       widgets: defaultWidgets,
       savedLayouts: [],

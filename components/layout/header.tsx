@@ -3,7 +3,6 @@
 import { startTransition } from "react";
 import { Bell, Download, Menu, RefreshCw, Search } from "lucide-react";
 
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { cn } from "@/lib/utils";
 import { useDashboardStore } from "@/store/dashboard-store";
 import type { DashboardComputation } from "@/types/dashboard";
@@ -21,7 +20,7 @@ export function Header({ onMenuClick, onExport, onRefresh, livePulse }: HeaderPr
 
   return (
     <header className="sticky top-0 z-20 px-4 pt-4 sm:px-6 lg:px-8">
-      <div className="mx-auto flex max-w-[1180px] items-center gap-3 rounded-[24px] border border-stroke/60 bg-card/70 px-4 py-3 shadow-soft backdrop-blur-2xl sm:px-5">
+      <div className="mx-auto flex max-w-[1180px] items-center gap-3 rounded-2xl border border-stroke bg-card px-4 py-3 sm:px-5">
         <button
           type="button"
           className="control-base lg:hidden"
@@ -32,7 +31,7 @@ export function Header({ onMenuClick, onExport, onRefresh, livePulse }: HeaderPr
         </button>
 
         <div className="relative flex-1">
-          <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/45" />
+          <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
           <input
             value={search}
             onChange={(event) => {
@@ -40,18 +39,18 @@ export function Header({ onMenuClick, onExport, onRefresh, livePulse }: HeaderPr
               startTransition(() => setSearch(next));
             }}
             placeholder="Search counterparties, notes, or categories"
-            className="field-shell h-12 w-full pl-11 pr-4 text-sm transition placeholder:text-foreground/40 focus:border-accent/40 focus:bg-card/95"
+            className="field-shell h-11 w-full pl-11 pr-4 text-sm text-slate-950 transition placeholder:text-slate-400 focus:border-slate-300"
             aria-label="Search dashboard data"
           />
         </div>
 
-        <div className="hidden items-center gap-2 rounded-full border border-stroke/65 bg-card/78 px-3 py-2 text-sm text-foreground/80 md:flex">
-          <span className="inline-flex h-2.5 w-2.5 rounded-full bg-accent animate-pulse-glow" />
+        <div className="hidden items-center gap-2 rounded-full border border-stroke bg-slate-50 px-3 py-2 text-sm text-slate-600 md:flex">
+          <span className="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
           <span>{livePulse.activeStreams} live signals</span>
           <span
             className={cn(
               "rounded-full px-2 py-0.5 font-mono text-[11px] font-medium",
-              livePulse.variance >= 0 ? "bg-success/15 text-success" : "bg-danger/15 text-danger",
+              livePulse.variance >= 0 ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-600",
             )}
           >
             {livePulse.variance >= 0 ? "+" : ""}
@@ -68,11 +67,10 @@ export function Header({ onMenuClick, onExport, onRefresh, livePulse }: HeaderPr
             <Download className="h-4 w-4" />
             <span className="hidden sm:inline">Export CSV</span>
           </button>
-          <ThemeToggle />
           <button type="button" className="control-base px-3" aria-label="Notifications">
             <Bell className="h-4 w-4" />
           </button>
-          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-stroke/60 bg-card/88 text-sm font-semibold text-foreground shadow-soft">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-stroke bg-slate-50 text-sm font-semibold text-slate-700">
             AB
           </div>
         </div>
