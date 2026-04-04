@@ -7,21 +7,21 @@
 
 # Pulseboard Dashboard
 
-Production-ready interactive analytics dashboard built with Next.js App Router, TypeScript, Tailwind CSS, Zustand, Chart.js, dnd-kit, and Framer Motion.
+Interactive analytics dashboard built with Next.js App Router, TypeScript, Tailwind CSS, Zustand, Chart.js, dnd-kit, and Framer Motion.
 
 ## Features
 
 - Responsive dashboard shell with sidebar, sticky header, and adaptive widget grid
 - Draggable widgets powered by `@dnd-kit`
 - Widget resize controls with persisted layout state
-- Finance analytics from local mock JSON data
+- Finance analytics from validated local mock JSON data
 - Global filtering by date range and category
 - Global search and sorting
-- Dark / light theme toggle with localStorage persistence
 - CSV export for the active transaction slice
 - Saved dashboard layout snapshots
-- Loading skeletons, empty states, and retryable error state
+- Empty states and retryable error state
 - Keyboard-friendly drag-and-drop sensor support
+- Static export workflow for GitHub Pages with configurable base path support
 
 ## Project structure
 
@@ -33,11 +33,9 @@ Dashboard/
 │   └── page.tsx
 ├── components/
 │   ├── app/
-│   │   ├── dashboard-app.tsx
-│   │   └── providers.tsx
+│   │   └── dashboard-app.tsx
 │   ├── dashboard/
 │   │   ├── dashboard-grid.tsx
-│   │   ├── dashboard-skeleton.tsx
 │   │   ├── error-state.tsx
 │   │   ├── filters-bar.tsx
 │   │   ├── widget-empty-state.tsx
@@ -45,8 +43,6 @@ Dashboard/
 │   ├── layout/
 │   │   ├── header.tsx
 │   │   └── sidebar.tsx
-│   ├── ui/
-│   │   └── theme-toggle.tsx
 │   └── widgets/
 │       ├── bar-chart-widget.tsx
 │       ├── line-chart-widget.tsx
@@ -61,6 +57,7 @@ Dashboard/
 │   ├── chart.ts
 │   ├── constants.ts
 │   ├── dashboard-data.ts
+│   ├── finance-data.ts
 │   ├── export.ts
 │   ├── format.ts
 │   └── utils.ts
@@ -68,7 +65,7 @@ Dashboard/
 │   └── dashboard-store.ts
 ├── types/
 │   └── dashboard.ts
-├── .eslintrc.json
+├── eslint.config.mjs
 ├── .gitignore
 ├── next.config.ts
 ├── package.json
@@ -95,12 +92,14 @@ Open `http://localhost:3000`.
 ## Production build
 
 ```bash
+npm run check
 npm run build
 npm run start
 ```
 
 ## Notes
 
-- Theme, filters, widgets layout, and saved layout snapshots are persisted in localStorage.
+- Filters, widgets layout, and saved layout snapshots are persisted in localStorage.
 - The mock dataset is anchored to the latest transaction date so date filters stay meaningful.
 - CSV export always uses the currently filtered transaction list.
+- `NEXT_PUBLIC_BASE_PATH` or `BASE_PATH` can override the repository-derived GitHub Pages path.

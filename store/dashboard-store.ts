@@ -8,16 +8,13 @@ import { createSnapshotName } from "@/lib/utils";
 import type {
   DashboardFilters,
   SavedLayoutSnapshot,
-  ThemeMode,
   WidgetLayoutItem,
 } from "@/types/dashboard";
 
 interface DashboardStore {
-  theme: ThemeMode;
   filters: DashboardFilters;
   widgets: WidgetLayoutItem[];
   savedLayouts: SavedLayoutSnapshot[];
-  setTheme: (theme: ThemeMode) => void;
   updateFilter: <K extends keyof DashboardFilters>(
     key: K,
     value: DashboardFilters[K],
@@ -40,12 +37,10 @@ function arrayMoveLocal<T>(array: T[], fromIndex: number, toIndex: number) {
 
 export const useDashboardStore = create<DashboardStore>()(
   persist(
-    (set, get) => ({
-      theme: "light",
+    (set) => ({
       filters: defaultFilters,
       widgets: defaultWidgets,
       savedLayouts: [],
-      setTheme: (theme) => set({ theme }),
       updateFilter: (key, value) =>
         set((state) => ({
           filters: {
@@ -118,7 +113,6 @@ export const useDashboardStore = create<DashboardStore>()(
       name: "pulseboard-dashboard",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
-        theme: state.theme,
         filters: state.filters,
         widgets: state.widgets,
         savedLayouts: state.savedLayouts,

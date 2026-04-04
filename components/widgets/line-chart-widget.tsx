@@ -3,16 +3,15 @@
 import { Line } from "react-chartjs-2";
 
 import { WidgetEmptyState } from "@/components/dashboard/widget-empty-state";
-import { getChartPalette } from "@/lib/chart";
+import { chartPalette } from "@/lib/chart";
 import { formatDateLabel } from "@/lib/format";
-import type { ChartDatum, ThemeMode } from "@/types/dashboard";
+import type { ChartDatum } from "@/types/dashboard";
 
 interface LineChartWidgetProps {
   series: ChartDatum[];
-  theme: ThemeMode;
 }
 
-export function LineChartWidget({ series, theme }: LineChartWidgetProps) {
+export function LineChartWidget({ series }: LineChartWidgetProps) {
   if (series.every((datum) => datum.value === 0 && (datum.secondaryValue ?? 0) === 0)) {
     return (
       <WidgetEmptyState
@@ -21,8 +20,6 @@ export function LineChartWidget({ series, theme }: LineChartWidgetProps) {
       />
     );
   }
-
-  const palette = getChartPalette(theme);
 
   return (
     <div className="h-full min-h-[290px]">
@@ -33,8 +30,8 @@ export function LineChartWidget({ series, theme }: LineChartWidgetProps) {
             {
               label: "Income",
               data: series.map((datum) => datum.value),
-              borderColor: palette.accent,
-              backgroundColor: palette.accentSoft,
+              borderColor: chartPalette.accent,
+              backgroundColor: chartPalette.accentSoft,
               pointRadius: 0,
               borderWidth: 2.5,
               fill: true,
@@ -43,8 +40,8 @@ export function LineChartWidget({ series, theme }: LineChartWidgetProps) {
             {
               label: "Expenses",
               data: series.map((datum) => datum.secondaryValue ?? 0),
-              borderColor: palette.secondary,
-              backgroundColor: palette.secondarySoft,
+              borderColor: chartPalette.secondary,
+              backgroundColor: chartPalette.secondarySoft,
               pointRadius: 0,
               borderWidth: 2.5,
               fill: true,
@@ -62,7 +59,7 @@ export function LineChartWidget({ series, theme }: LineChartWidgetProps) {
           plugins: {
             legend: {
               labels: {
-                color: palette.text,
+                color: chartPalette.text,
                 usePointStyle: true,
               },
             },
@@ -70,19 +67,19 @@ export function LineChartWidget({ series, theme }: LineChartWidgetProps) {
           scales: {
             x: {
               ticks: {
-                color: palette.text,
+                color: chartPalette.text,
                 maxTicksLimit: 7,
               },
               grid: {
-                color: palette.muted,
+                color: chartPalette.muted,
               },
             },
             y: {
               ticks: {
-                color: palette.text,
+                color: chartPalette.text,
               },
               grid: {
-                color: palette.muted,
+                color: chartPalette.muted,
               },
             },
           },

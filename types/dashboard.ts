@@ -1,5 +1,3 @@
-export type ThemeMode = "light" | "dark";
-
 export type DateRange = "7d" | "30d" | "90d" | "180d";
 
 export type SortOption =

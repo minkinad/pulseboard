@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useShallow } from "zustand/react/shallow";
 
 import { DashboardGrid } from "@/components/dashboard/dashboard-grid";
-import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
 import { ErrorState } from "@/components/dashboard/error-state";
 import { FiltersBar } from "@/components/dashboard/filters-bar";
 import { Header } from "@/components/layout/header";
@@ -16,13 +16,23 @@ import { useDashboardStore } from "@/store/dashboard-store";
 export function DashboardApp() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const widgets = useDashboardStore((state) => state.widgets);
-  const savedLayouts = useDashboardStore((state) => state.savedLayouts);
-  const saveCurrentLayout = useDashboardStore((state) => state.saveCurrentLayout);
-  const loadSavedLayout = useDashboardStore((state) => state.loadSavedLayout);
-  const deleteSavedLayout = useDashboardStore((state) => state.deleteSavedLayout);
-  const resetLayout = useDashboardStore((state) => state.resetLayout);
-  const theme = useDashboardStore((state) => state.theme);
+  const {
+    widgets,
+    savedLayouts,
+    saveCurrentLayout,
+    loadSavedLayout,
+    deleteSavedLayout,
+    resetLayout,
+  } = useDashboardStore(
+    useShallow((state) => ({
+      widgets: state.widgets,
+      savedLayouts: state.savedLayouts,
+      saveCurrentLayout: state.saveCurrentLayout,
+      loadSavedLayout: state.loadSavedLayout,
+      deleteSavedLayout: state.deleteSavedLayout,
+      resetLayout: state.resetLayout,
+    })),
+  );
 
   const { status, error, refresh, ...dashboard } = useDashboardData();
 
@@ -78,7 +88,7 @@ export function DashboardApp() {
                   </div>
                   <div className="soft-card p-4">
                     <p className="tiny-label">Mode</p>
-                    <p className="mt-3 text-3xl font-semibold text-slate-950">Light</p>
+                    <p className="mt-3 text-3xl font-semibold text-slate-950">Static</p>
                   </div>
                 </div>
               </div>
@@ -92,9 +102,7 @@ export function DashboardApp() {
             />
 
             <AnimatePresence mode="wait">
-              {status === "loading" ? (
-                <DashboardSkeleton key="loading" />
-              ) : status === "error" ? (
+              {status === "error" ? (
                 <ErrorState key="error" message={error ?? "Unknown loading error."} onRetry={refresh} />
               ) : (
                 <motion.div
@@ -104,7 +112,7 @@ export function DashboardApp() {
                   exit={{ opacity: 0, y: -12 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
                 >
-                  <DashboardGrid theme={theme} data={dashboard} />
+                  <DashboardGrid data={dashboard} />
                 </motion.div>
               )}
             </AnimatePresence>

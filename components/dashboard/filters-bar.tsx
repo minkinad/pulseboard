@@ -1,6 +1,7 @@
 "use client";
 
 import { RotateCcw, Save, SlidersHorizontal } from "lucide-react";
+import { useShallow } from "zustand/react/shallow";
 
 import { dateRangeOptions, sortOptions } from "@/lib/constants";
 import { useDashboardStore } from "@/store/dashboard-store";
@@ -43,8 +44,12 @@ export function FiltersBar({
   onSaveLayout,
   onResetLayout,
 }: FiltersBarProps) {
-  const filters = useDashboardStore((state) => state.filters);
-  const updateFilter = useDashboardStore((state) => state.updateFilter);
+  const { filters, updateFilter } = useDashboardStore(
+    useShallow((state) => ({
+      filters: state.filters,
+      updateFilter: state.updateFilter,
+    })),
+  );
 
   return (
     <section className="surface-panel p-5 sm:p-6">

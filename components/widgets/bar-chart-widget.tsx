@@ -3,15 +3,14 @@
 import { Bar } from "react-chartjs-2";
 
 import { WidgetEmptyState } from "@/components/dashboard/widget-empty-state";
-import { getChartPalette } from "@/lib/chart";
-import type { ChartDatum, ThemeMode } from "@/types/dashboard";
+import { chartPalette } from "@/lib/chart";
+import type { ChartDatum } from "@/types/dashboard";
 
 interface BarChartWidgetProps {
   series: ChartDatum[];
-  theme: ThemeMode;
 }
 
-export function BarChartWidget({ series, theme }: BarChartWidgetProps) {
+export function BarChartWidget({ series }: BarChartWidgetProps) {
   if (series.length === 0) {
     return (
       <WidgetEmptyState
@@ -20,8 +19,6 @@ export function BarChartWidget({ series, theme }: BarChartWidgetProps) {
       />
     );
   }
-
-  const palette = getChartPalette(theme);
 
   return (
     <div className="h-full min-h-[290px]">
@@ -32,7 +29,7 @@ export function BarChartWidget({ series, theme }: BarChartWidgetProps) {
             {
               label: "Expense volume",
               data: series.map((datum) => datum.value),
-              backgroundColor: palette.pie,
+              backgroundColor: chartPalette.pie,
               borderRadius: 16,
             },
           ],
@@ -48,7 +45,7 @@ export function BarChartWidget({ series, theme }: BarChartWidgetProps) {
           scales: {
             x: {
               ticks: {
-                color: palette.text,
+                color: chartPalette.text,
               },
               grid: {
                 display: false,
@@ -56,10 +53,10 @@ export function BarChartWidget({ series, theme }: BarChartWidgetProps) {
             },
             y: {
               ticks: {
-                color: palette.text,
+                color: chartPalette.text,
               },
               grid: {
-                color: palette.muted,
+                color: chartPalette.muted,
               },
             },
           },

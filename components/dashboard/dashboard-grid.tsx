@@ -16,6 +16,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useShallow } from "zustand/react/shallow";
 
 import { WidgetFrame } from "@/components/dashboard/widget-frame";
 import { BarChartWidget } from "@/components/widgets/bar-chart-widget";
@@ -25,20 +26,17 @@ import { SummaryWidget } from "@/components/widgets/summary-widget";
 import { TransactionsWidget } from "@/components/widgets/transactions-widget";
 import { widgetSizeClassNames } from "@/lib/constants";
 import { useDashboardStore } from "@/store/dashboard-store";
-import type { DashboardComputation, ThemeMode, WidgetLayoutItem } from "@/types/dashboard";
+import type { DashboardComputation, WidgetLayoutItem } from "@/types/dashboard";
 
 interface DashboardGridProps {
-  theme: ThemeMode;
   data: DashboardComputation;
 }
 
 function SortableWidget({
   widget,
-  theme,
   data,
 }: {
   widget: WidgetLayoutItem;
-  theme: ThemeMode;
   data: DashboardComputation;
 }) {
   const cycleWidgetSize = useDashboardStore((state) => state.cycleWidgetSize);
@@ -61,11 +59,11 @@ function SortableWidget({
           />
         );
       case "line":
-        return <LineChartWidget series={data.lineSeries} theme={theme} />;
+        return <LineChartWidget series={data.lineSeries} />;
       case "bar":
-        return <BarChartWidget series={data.barSeries} theme={theme} />;
+        return <BarChartWidget series={data.barSeries} />;
       case "pie":
-        return <PieChartWidget series={data.pieSeries} theme={theme} />;
+        return <PieChartWidget series={data.pieSeries} />;
       case "table":
         return <TransactionsWidget transactions={data.transactions} />;
       default:
@@ -89,9 +87,13 @@ function SortableWidget({
   );
 }
 
-export function DashboardGrid({ theme, data }: DashboardGridProps) {
-  const widgets = useDashboardStore((state) => state.widgets);
-  const reorderWidgets = useDashboardStore((state) => state.reorderWidgets);
+export function DashboardGrid({ data }: DashboardGridProps) {
+  const { widgets, reorderWidgets } = useDashboardStore(
+    useShallow((state) => ({
+      widgets: state.widgets,
+      reorderWidgets: state.reorderWidgets,
+    })),
+  );
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -119,7 +121,7 @@ export function DashboardGrid({ theme, data }: DashboardGridProps) {
       <SortableContext items={widgets.map((widget) => widget.id)} strategy={rectSortingStrategy}>
         <section className="grid grid-cols-12 gap-5">
           {widgets.map((widget) => (
-            <SortableWidget key={widget.id} widget={widget} theme={theme} data={data} />
+            <SortableWidget key={widget.id} widget={widget} data={data} />
           ))}
         </section>
       </SortableContext>

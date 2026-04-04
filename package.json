@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "python3 -m http.server 3000 -d out",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit --incremental false"
+    "start": "node scripts/preview-static.mjs",
+    "preview": "node scripts/preview-static.mjs",
+    "lint": "eslint .",
+    "typecheck": "next typegen && find .next/types -maxdepth 3 -type f >/dev/null && npx tsc --noEmit --incremental false",
+    "check": "npm run lint && npm run typecheck"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

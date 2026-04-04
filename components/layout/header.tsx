@@ -2,6 +2,7 @@
 
 import { startTransition } from "react";
 import { Bell, Download, Menu, RefreshCw, Search } from "lucide-react";
+import { useShallow } from "zustand/react/shallow";
 
 import { cn } from "@/lib/utils";
 import { useDashboardStore } from "@/store/dashboard-store";
@@ -15,8 +16,12 @@ interface HeaderProps {
 }
 
 export function Header({ onMenuClick, onExport, onRefresh, livePulse }: HeaderProps) {
-  const search = useDashboardStore((state) => state.filters.search);
-  const setSearch = useDashboardStore((state) => state.setSearch);
+  const { search, setSearch } = useDashboardStore(
+    useShallow((state) => ({
+      search: state.filters.search,
+      setSearch: state.setSearch,
+    })),
+  );
 
   return (
     <header className="sticky top-0 z-20 px-4 pt-4 sm:px-6 lg:px-8">

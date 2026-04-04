@@ -235,6 +235,26 @@ function buildInsight(
   };
 }
 
+function matchesCategory(transaction: FinanceTransaction, category: DashboardFilters["category"]) {
+  return category === "All" ? true : transaction.category === category;
+}
+
+function matchesSearch(transaction: FinanceTransaction, search: string) {
+  if (!search) {
+    return true;
+  }
+
+  return [
+    transaction.category,
+    transaction.counterparty,
+    transaction.channel,
+    transaction.note,
+  ]
+    .join(" ")
+    .toLowerCase()
+    .includes(search);
+}
+
 export function buildDashboardComputation(
   transactions: FinanceTransaction[],
   filters: DashboardFilters,
@@ -263,29 +283,14 @@ export function buildDashboardComputation(
 
   const filteredTransactions = transactions
     .filter((transaction) => inRange(transaction.date, start, end))
-    .filter((transaction) =>
-      filters.category === "All" ? true : transaction.category === filters.category,
-    )
-    .filter((transaction) => {
-      if (!normalizedSearch) {
-        return true;
-      }
-
-      return [
-        transaction.category,
-        transaction.counterparty,
-        transaction.channel,
-        transaction.note,
-      ]
-        .join(" ")
-        .toLowerCase()
-        .includes(normalizedSearch);
-    })
+    .filter((transaction) => matchesCategory(transaction, filters.category))
+    .filter((transaction) => matchesSearch(transaction, normalizedSearch))
     .sort((left, right) => compareTransactions(left, right, filters.sortBy));
 
-  const previousTransactions = transactions.filter((transaction) =>
-    inRange(transaction.date, previousStart, previousEnd),
-  );
+  const previousTransactions = transactions
+    .filter((transaction) => inRange(transaction.date, previousStart, previousEnd))
+    .filter((transaction) => matchesCategory(transaction, filters.category))
+    .filter((transaction) => matchesSearch(transaction, normalizedSearch));
 
   const categories = Array.from(new Set(transactions.map((transaction) => transaction.category)))
     .sort((left, right) => left.localeCompare(right));
