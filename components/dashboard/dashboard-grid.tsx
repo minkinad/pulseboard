@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import {
   closestCenter,
   DndContext,
@@ -32,6 +34,52 @@ interface DashboardGridProps {
   data: DashboardComputation;
 }
 
+function renderWidgetContent(widget: WidgetLayoutItem, data: DashboardComputation) {
+  switch (widget.kind) {
+    case "summary":
+      return (
+        <SummaryWidget
+          summary={data.summary}
+          insight={data.insight}
+          livePulse={data.livePulse}
+        />
+      );
+    case "line":
+      return <LineChartWidget series={data.lineSeries} />;
+    case "bar":
+      return <BarChartWidget series={data.barSeries} />;
+    case "pie":
+      return <PieChartWidget series={data.pieSeries} />;
+    case "table":
+      return <TransactionsWidget transactions={data.transactions} />;
+    default:
+      return null;
+  }
+}
+
+function StaticWidget({
+  widget,
+  data,
+}: {
+  widget: WidgetLayoutItem;
+  data: DashboardComputation;
+}) {
+  return (
+    <div className={widgetSizeClassNames[widget.size]}>
+      <WidgetFrame
+        widget={widget}
+        isDragging={false}
+        attributes={{}}
+        listeners={undefined}
+        onGrow={() => undefined}
+        onShrink={() => undefined}
+      >
+        {renderWidgetContent(widget, data)}
+      </WidgetFrame>
+    </div>
+  );
+}
+
 function SortableWidget({
   widget,
   data,
@@ -48,29 +96,6 @@ function SortableWidget({
     transition,
   };
 
-  const content = (() => {
-    switch (widget.kind) {
-      case "summary":
-        return (
-          <SummaryWidget
-            summary={data.summary}
-            insight={data.insight}
-            livePulse={data.livePulse}
-          />
-        );
-      case "line":
-        return <LineChartWidget series={data.lineSeries} />;
-      case "bar":
-        return <BarChartWidget series={data.barSeries} />;
-      case "pie":
-        return <PieChartWidget series={data.pieSeries} />;
-      case "table":
-        return <TransactionsWidget transactions={data.transactions} />;
-      default:
-        return null;
-    }
-  })();
-
   return (
     <div ref={setNodeRef} style={style} className={widgetSizeClassNames[widget.size]}>
       <WidgetFrame
@@ -81,19 +106,24 @@ function SortableWidget({
         onGrow={() => cycleWidgetSize(widget.id, 1)}
         onShrink={() => cycleWidgetSize(widget.id, -1)}
       >
-        {content}
+        {renderWidgetContent(widget, data)}
       </WidgetFrame>
     </div>
   );
 }
 
 export function DashboardGrid({ data }: DashboardGridProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const { widgets, reorderWidgets } = useDashboardStore(
     useShallow((state) => ({
       widgets: state.widgets,
       reorderWidgets: state.reorderWidgets,
     })),
   );
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -114,6 +144,16 @@ export function DashboardGrid({ data }: DashboardGridProps) {
     }
 
     reorderWidgets(String(active.id), String(over.id));
+  }
+
+  if (!isMounted) {
+    return (
+      <section className="grid grid-cols-12 gap-5">
+        {widgets.map((widget) => (
+          <StaticWidget key={widget.id} widget={widget} data={data} />
+        ))}
+      </section>
+    );
   }
 
   return (

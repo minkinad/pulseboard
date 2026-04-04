@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { PanelLeftClose, X } from "lucide-react";
+import Image from "next/image";
 
 import { sidebarNavigation } from "@/lib/constants";
 import { formatTimeLabel } from "@/lib/format";
@@ -24,11 +25,23 @@ function SidebarContent({
   return (
     <div className="flex h-full flex-col bg-white">
       <div className="flex items-center justify-between border-b border-stroke px-5 py-5">
-        <div>
-          <p className="tiny-label">Pulseboard</p>
-          <h2 className="mt-2 text-[1.55rem] font-semibold tracking-[-0.04em] text-slate-950">
-            Analytics
-          </h2>
+        <div className="flex items-center gap-3">
+          <div className="overflow-hidden rounded-2xl border border-slate-950/10 bg-slate-950 p-1.5 shadow-soft">
+            <Image
+              src="/branding/pulseboard.png"
+              alt="Pulseboard logo"
+              width={52}
+              height={52}
+              className="h-[52px] w-[52px] rounded-xl object-cover"
+              priority
+            />
+          </div>
+          <div>
+            <p className="tiny-label">Pulseboard</p>
+            <h2 className="mt-2 text-[1.55rem] font-semibold tracking-[-0.04em] text-slate-950">
+              Analytics
+            </h2>
+          </div>
         </div>
         <button
           type="button"
