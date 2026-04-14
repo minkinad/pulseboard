@@ -1,11 +1,11 @@
+# Pulseboard Dashboard
+
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Chart.js](https://img.shields.io/badge/Chart.js-4-FF6384?logo=chartdotjs&logoColor=white)](https://www.chartjs.org/)
 [![Zustand](https://img.shields.io/badge/Zustand-State_Store-433E38)](https://zustand-demo.pmnd.rs/)
-
-# Pulseboard Dashboard
 
 Interactive analytics dashboard built with Next.js App Router, TypeScript, Tailwind CSS, Zustand, Chart.js, dnd-kit, and Framer Motion.
 
