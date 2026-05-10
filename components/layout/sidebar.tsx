@@ -28,7 +28,7 @@ function SidebarContent({
         <div className="flex items-center gap-3">
           <div className="overflow-hidden rounded-2xl border border-slate-950/10 bg-slate-950 p-1.5 shadow-soft">
             <Image
-              src="/branding/pulseboard.png"
+              src="/branding/pulseboard.svg"
               alt="Pulseboard logo"
               width={52}
               height={52}
@@ -102,7 +102,7 @@ function SidebarContent({
               savedLayouts.map((layout) => (
                 <div
                   key={layout.id}
-                  className="soft-card p-4"
+                  className="soft-card p-4 transition hover:bg-slate-50"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
@@ -111,7 +111,7 @@ function SidebarContent({
                         Saved at {formatTimeLabel(layout.createdAt)}
                       </p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap justify-end gap-2">
                       <button
                         type="button"
                         onClick={() => onLoadLayout(layout.id)}
@@ -162,7 +162,7 @@ export function Sidebar(props: SidebarProps) {
               animate={{ x: 0 }}
               exit={{ x: -340 }}
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
-              className="fixed inset-y-3 left-3 z-50 w-[280px] overflow-hidden rounded-2xl border border-stroke bg-card lg:hidden"
+              className="fixed inset-y-3 left-3 z-50 w-[min(280px,calc(100vw-1.5rem))] overflow-hidden rounded-2xl border border-stroke bg-card lg:hidden"
             >
               <SidebarContent {...props} />
             </motion.aside>

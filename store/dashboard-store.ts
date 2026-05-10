@@ -4,7 +4,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 import { defaultFilters, defaultWidgets, widgetResizeOrder } from "@/lib/constants";
-import { createSnapshotName } from "@/lib/utils";
+import { cloneWidgets, createSnapshotName } from "@/lib/utils";
 import type {
   DashboardFilters,
   SavedLayoutSnapshot,
@@ -39,7 +39,7 @@ export const useDashboardStore = create<DashboardStore>()(
   persist(
     (set) => ({
       filters: defaultFilters,
-      widgets: defaultWidgets,
+      widgets: cloneWidgets(defaultWidgets),
       savedLayouts: [],
       updateFilter: (key, value) =>
         set((state) => ({
@@ -86,7 +86,7 @@ export const useDashboardStore = create<DashboardStore>()(
             };
           }),
         })),
-      resetLayout: () => set({ widgets: defaultWidgets }),
+      resetLayout: () => set({ widgets: cloneWidgets(defaultWidgets) }),
       saveCurrentLayout: () =>
         set((state) => ({
           savedLayouts: [
@@ -94,7 +94,7 @@ export const useDashboardStore = create<DashboardStore>()(
               id: `layout-${Date.now()}`,
               name: createSnapshotName(state.savedLayouts.length),
               createdAt: new Date().toISOString(),
-              widgets: state.widgets,
+              widgets: cloneWidgets(state.widgets),
             },
             ...state.savedLayouts,
           ].slice(0, 6),
@@ -102,7 +102,7 @@ export const useDashboardStore = create<DashboardStore>()(
       loadSavedLayout: (layoutId) =>
         set((state) => {
           const match = state.savedLayouts.find((layout) => layout.id === layoutId);
-          return match ? { widgets: match.widgets } : state;
+          return match ? { widgets: cloneWidgets(match.widgets) } : state;
         }),
       deleteSavedLayout: (layoutId) =>
         set((state) => ({

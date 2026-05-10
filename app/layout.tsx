@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   title: "Pulseboard Dashboard",
   description: "Clean finance analytics dashboard with drag-and-drop widgets and live insights.",
   icons: {
-    icon: "/branding/pulseboard.png",
-    apple: "/branding/pulseboard.png",
+    icon: "/branding/pulseboard.svg",
+    apple: "/branding/pulseboard.svg",
   },
 };
 

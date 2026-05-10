@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useShallow } from "zustand/react/shallow";
 
@@ -36,8 +36,23 @@ export function DashboardApp() {
 
   const { status, error, refresh, ...dashboard } = useDashboardData();
 
+  useEffect(() => {
+    if (!sidebarOpen) {
+      return;
+    }
+
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = overflow;
+    };
+  }, [sidebarOpen]);
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="relative min-h-screen overflow-x-clip bg-slate-50">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(circle_at_top_left,_rgba(148,163,184,0.18),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(15,23,42,0.08),_transparent_34%)]" />
+
       <Sidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -49,7 +64,7 @@ export function DashboardApp() {
         onDeleteLayout={deleteSavedLayout}
       />
 
-      <div className="min-h-screen lg:pl-[288px]">
+      <div className="relative min-h-screen lg:pl-[288px]">
         <Header
           onMenuClick={() => setSidebarOpen(true)}
           onExport={() => downloadTransactionsCsv(dashboard.transactions)}
@@ -64,7 +79,8 @@ export function DashboardApp() {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="mx-auto flex w-full max-w-[1180px] flex-col gap-6"
           >
-            <section className="surface-panel px-6 py-6 sm:px-8">
+            <section className="surface-panel relative overflow-hidden px-6 py-6 sm:px-8">
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-40 bg-[linear-gradient(135deg,rgba(255,255,255,0),rgba(148,163,184,0.12))]" />
               <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
                 <div className="max-w-3xl">
                   <p className="tiny-label">Dashboard</p>

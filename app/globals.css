@@ -44,7 +44,9 @@ html {
 
 body {
   min-height: 100vh;
-  background: rgb(var(--background));
+  background:
+    radial-gradient(circle at top left, rgba(148, 163, 184, 0.14), transparent 24rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 1));
   color: rgb(var(--foreground));
   font-family: var(--font-manrope), sans-serif;
   overflow-x: hidden;
@@ -68,6 +70,18 @@ body {
   select {
     @apply outline-none;
   }
+
+  button,
+  input,
+  select,
+  textarea {
+    min-width: 0;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--foreground) / 0.18);
+    outline-offset: 2px;
+  }
 }
 
 @layer components {
@@ -90,6 +104,11 @@ body {
 
   .control-base:hover {
     background: rgb(var(--muted));
+  }
+
+  .control-base:focus-visible,
+  .field-shell:focus-visible {
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
   }
 
   .tiny-label {

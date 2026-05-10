@@ -8,3 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function createSnapshotName(count: number) {
   return `Layout ${String(count + 1).padStart(2, "0")}`;
 }
+
+export function cloneWidgets<T>(widgets: T[]) {
+  return widgets.map((widget) => ({ ...widget }));
+}

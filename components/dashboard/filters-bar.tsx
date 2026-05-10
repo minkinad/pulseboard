@@ -25,12 +25,12 @@ function SelectField({
   children: React.ReactNode;
 }) {
   return (
-    <label className="flex min-w-[180px] flex-col gap-2 text-sm">
+    <label className="flex min-w-0 w-full flex-col gap-2 text-sm xl:max-w-[240px]">
       <span className="tiny-label">{label}</span>
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="field-shell h-11 px-4 text-sm text-slate-950 transition focus:border-slate-300"
+        className="field-shell h-11 w-full px-4 text-sm text-slate-950 transition focus:border-slate-300"
       >
         {children}
       </select>
@@ -67,11 +67,19 @@ export function FiltersBar({
         </div>
 
         <div className="flex flex-wrap gap-2">
-          <button type="button" className="control-base" onClick={onSaveLayout}>
+          <button
+            type="button"
+            className="control-base flex-1 justify-center sm:flex-none"
+            onClick={onSaveLayout}
+          >
             <Save className="h-4 w-4" />
             Save layout
           </button>
-          <button type="button" className="control-base" onClick={onResetLayout}>
+          <button
+            type="button"
+            className="control-base flex-1 justify-center sm:flex-none"
+            onClick={onResetLayout}
+          >
             <RotateCcw className="h-4 w-4" />
             Reset layout
           </button>
@@ -80,7 +88,7 @@ export function FiltersBar({
 
       <hr className="section-divider my-5" />
 
-      <div className="flex flex-col gap-4 xl:flex-row xl:flex-wrap">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         <SelectField
           label="Date range"
           value={filters.dateRange}
