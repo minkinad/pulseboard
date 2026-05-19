@@ -1,4 +1,5 @@
 import rawFinanceData from "@/data/finance-data.json";
+import { formatDateKey, parseIsoDate } from "@/lib/date";
 import type { DashboardComputation, FinanceTransaction } from "@/types/dashboard";
 
 const transactionTypes = new Set<FinanceTransaction["type"]>(["income", "expense"]);
@@ -18,7 +19,7 @@ function readStringField(
     throw new Error(`Transaction ${index + 1} has an invalid "${fieldName}" field.`);
   }
 
-  return value;
+  return value.trim();
 }
 
 function readAmountField(transaction: Record<string, unknown>, index: number) {
@@ -29,6 +30,17 @@ function readAmountField(transaction: Record<string, unknown>, index: number) {
   }
 
   return value;
+}
+
+function readDateField(transaction: Record<string, unknown>, index: number) {
+  const value = readStringField(transaction, "date", index);
+  const parsed = parseIsoDate(value);
+
+  if (!parsed) {
+    throw new Error(`Transaction ${index + 1} has an invalid "date" field.`);
+  }
+
+  return formatDateKey(parsed);
 }
 
 function parseTransaction(transaction: unknown, index: number): FinanceTransaction {
@@ -46,7 +58,7 @@ function parseTransaction(transaction: unknown, index: number): FinanceTransacti
 
   return {
     id: readStringField(transaction, "id", index),
-    date: readStringField(transaction, "date", index),
+    date: readDateField(transaction, index),
     type: normalizedType,
     category: readStringField(transaction, "category", index),
     counterparty: readStringField(transaction, "counterparty", index),
@@ -61,7 +73,16 @@ export function loadFinanceTransactions(source: unknown = rawFinanceData) {
     throw new Error("Finance dataset must be an array of transactions.");
   }
 
-  return source.map(parseTransaction);
+  const seenIds = new Set<string>();
+
+  return source.map(parseTransaction).map((transaction, index) => {
+    if (seenIds.has(transaction.id)) {
+      throw new Error(`Transaction ${index + 1} reuses the id "${transaction.id}".`);
+    }
+
+    seenIds.add(transaction.id);
+    return transaction;
+  });
 }
 
 export function createLivePulse(): DashboardComputation["livePulse"] {

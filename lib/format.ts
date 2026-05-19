@@ -1,3 +1,5 @@
+import { parseIsoDate } from "@/lib/date";
+
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
@@ -37,18 +39,30 @@ export function formatNumber(value: number) {
 }
 
 export function formatDateLabel(date: string) {
+  const parsed = parseIsoDate(date);
+
+  if (!parsed) {
+    return date;
+  }
+
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
-  }).format(new Date(`${date}T12:00:00`));
+  }).format(parsed);
 }
 
 export function formatDateWithYear(date: string) {
+  const parsed = parseIsoDate(date);
+
+  if (!parsed) {
+    return date;
+  }
+
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
-  }).format(new Date(`${date}T12:00:00`));
+  }).format(parsed);
 }
 
 export function formatTimeLabel(isoString: string) {

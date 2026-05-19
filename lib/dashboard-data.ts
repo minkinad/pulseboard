@@ -1,3 +1,4 @@
+import { addDays, formatDateKey, parseIsoDate } from "@/lib/date";
 import type {
   ChartDatum,
   DashboardComputation,
@@ -8,17 +9,13 @@ import type {
 } from "@/types/dashboard";
 
 function parseDate(date: string) {
-  return new Date(`${date}T12:00:00`);
-}
+  const parsed = parseIsoDate(date);
 
-function toDateKey(date: Date) {
-  return date.toISOString().slice(0, 10);
-}
+  if (!parsed) {
+    throw new Error(`Unsupported ISO date value: "${date}".`);
+  }
 
-function addDays(date: Date, days: number) {
-  const next = new Date(date);
-  next.setDate(next.getDate() + days);
-  return next;
+  return parsed;
 }
 
 function getRangeLength(dateRange: DashboardFilters["dateRange"]) {
@@ -181,7 +178,7 @@ function buildLineSeries(
   }
 
   return Array.from({ length: rangeLength }, (_, index) => {
-    const key = toDateKey(addDays(start, index));
+    const key = formatDateKey(addDays(start, index));
     const snapshot = daily.get(key) ?? { income: 0, expense: 0 };
 
     return {
@@ -280,20 +277,19 @@ export function buildDashboardComputation(
   const previousEnd = addDays(start, -1);
   const previousStart = addDays(previousEnd, -(rangeLength - 1));
   const normalizedSearch = filters.search.trim().toLowerCase();
-
+  const categories = Array.from(new Set(transactions.map((transaction) => transaction.category)))
+    .sort((left, right) => left.localeCompare(right));
+  const normalizedCategory = categories.includes(filters.category) ? filters.category : "All";
   const filteredTransactions = transactions
     .filter((transaction) => inRange(transaction.date, start, end))
-    .filter((transaction) => matchesCategory(transaction, filters.category))
+    .filter((transaction) => matchesCategory(transaction, normalizedCategory))
     .filter((transaction) => matchesSearch(transaction, normalizedSearch))
     .sort((left, right) => compareTransactions(left, right, filters.sortBy));
 
   const previousTransactions = transactions
     .filter((transaction) => inRange(transaction.date, previousStart, previousEnd))
-    .filter((transaction) => matchesCategory(transaction, filters.category))
+    .filter((transaction) => matchesCategory(transaction, normalizedCategory))
     .filter((transaction) => matchesSearch(transaction, normalizedSearch));
-
-  const categories = Array.from(new Set(transactions.map((transaction) => transaction.category)))
-    .sort((left, right) => left.localeCompare(right));
 
   const summary = buildSummary(filteredTransactions, previousTransactions);
   const lineSeries = buildLineSeries(filteredTransactions, start, rangeLength);

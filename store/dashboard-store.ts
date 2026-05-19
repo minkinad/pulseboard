@@ -3,12 +3,19 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import { defaultFilters, defaultWidgets, widgetResizeOrder } from "@/lib/constants";
+import {
+  dateRangeOptions,
+  defaultFilters,
+  defaultWidgets,
+  sortOptions,
+  widgetResizeOrder,
+} from "@/lib/constants";
 import { cloneWidgets, createSnapshotName } from "@/lib/utils";
 import type {
   DashboardFilters,
   SavedLayoutSnapshot,
   WidgetLayoutItem,
+  WidgetSize,
 } from "@/types/dashboard";
 
 interface DashboardStore {
@@ -26,6 +33,155 @@ interface DashboardStore {
   saveCurrentLayout: () => void;
   loadSavedLayout: (layoutId: string) => void;
   deleteSavedLayout: (layoutId: string) => void;
+}
+
+const widgetTemplates = new Map(defaultWidgets.map((widget) => [widget.id, widget]));
+const validDateRanges = new Set(dateRangeOptions.map((option) => option.value));
+const validSortOptions = new Set(sortOptions.map((option) => option.value));
+const validWidgetSizes = new Set<WidgetSize>([
+  "compact",
+  "standard",
+  "wide",
+  "hero",
+  "tall",
+]);
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function sanitizeFilters(rawFilters: unknown): DashboardFilters {
+  if (!isObject(rawFilters)) {
+    return defaultFilters;
+  }
+
+  const dateRange = validDateRanges.has(rawFilters.dateRange as DashboardFilters["dateRange"])
+    ? (rawFilters.dateRange as DashboardFilters["dateRange"])
+    : defaultFilters.dateRange;
+  const sortBy = validSortOptions.has(rawFilters.sortBy as DashboardFilters["sortBy"])
+    ? (rawFilters.sortBy as DashboardFilters["sortBy"])
+    : defaultFilters.sortBy;
+  const category = isNonEmptyString(rawFilters.category)
+    ? rawFilters.category.trim()
+    : defaultFilters.category;
+  const search = typeof rawFilters.search === "string" ? rawFilters.search : defaultFilters.search;
+
+  return {
+    dateRange,
+    category,
+    sortBy,
+    search,
+  };
+}
+
+function sanitizeWidget(rawWidget: unknown) {
+  if (!isObject(rawWidget) || !isNonEmptyString(rawWidget.id)) {
+    return null;
+  }
+
+  const template = widgetTemplates.get(rawWidget.id.trim());
+
+  if (!template) {
+    return null;
+  }
+
+  const allowedSizes = widgetResizeOrder[template.id] ?? [template.size];
+  const size =
+    validWidgetSizes.has(rawWidget.size as WidgetSize) &&
+    allowedSizes.includes(rawWidget.size as WidgetSize)
+      ? (rawWidget.size as WidgetSize)
+      : template.size;
+
+  return {
+    ...template,
+    size,
+  };
+}
+
+function sanitizeWidgets(rawWidgets: unknown) {
+  if (!Array.isArray(rawWidgets)) {
+    return cloneWidgets(defaultWidgets);
+  }
+
+  const seen = new Set<string>();
+  const sanitized = rawWidgets
+    .map(sanitizeWidget)
+    .filter((widget): widget is WidgetLayoutItem => widget !== null)
+    .filter((widget) => {
+      if (seen.has(widget.id)) {
+        return false;
+      }
+
+      seen.add(widget.id);
+      return true;
+    });
+
+  for (const template of defaultWidgets) {
+    if (!seen.has(template.id)) {
+      sanitized.push({ ...template });
+    }
+  }
+
+  return sanitized;
+}
+
+function sanitizeSavedLayout(rawLayout: unknown) {
+  if (!isObject(rawLayout) || !isNonEmptyString(rawLayout.id)) {
+    return null;
+  }
+
+  const createdAt =
+    typeof rawLayout.createdAt === "string" && !Number.isNaN(Date.parse(rawLayout.createdAt))
+      ? rawLayout.createdAt
+      : new Date().toISOString();
+
+  return {
+    id: rawLayout.id.trim(),
+    name: isNonEmptyString(rawLayout.name) ? rawLayout.name.trim() : "Saved layout",
+    createdAt,
+    widgets: sanitizeWidgets(rawLayout.widgets),
+  };
+}
+
+function sanitizeSavedLayouts(rawLayouts: unknown) {
+  if (!Array.isArray(rawLayouts)) {
+    return [];
+  }
+
+  const seen = new Set<string>();
+
+  return rawLayouts
+    .map(sanitizeSavedLayout)
+    .filter((layout): layout is SavedLayoutSnapshot => layout !== null)
+    .filter((layout) => {
+      if (seen.has(layout.id)) {
+        return false;
+      }
+
+      seen.add(layout.id);
+      return true;
+    })
+    .slice(0, 6);
+}
+
+function sanitizePersistedState(rawState: unknown) {
+  if (!isObject(rawState)) {
+    return {
+      filters: defaultFilters,
+      widgets: cloneWidgets(defaultWidgets),
+      savedLayouts: [],
+    };
+  }
+
+  return {
+    filters: sanitizeFilters(rawState.filters),
+    widgets: sanitizeWidgets(rawState.widgets),
+    savedLayouts: sanitizeSavedLayouts(rawState.savedLayouts),
+  };
 }
 
 function arrayMoveLocal<T>(array: T[], fromIndex: number, toIndex: number) {
@@ -111,7 +267,12 @@ export const useDashboardStore = create<DashboardStore>()(
     }),
     {
       name: "pulseboard-dashboard",
+      version: 1,
       storage: createJSONStorage(() => localStorage),
+      merge: (persistedState, currentState) => ({
+        ...currentState,
+        ...sanitizePersistedState(persistedState),
+      }),
       partialize: (state) => ({
         filters: state.filters,
         widgets: state.widgets,

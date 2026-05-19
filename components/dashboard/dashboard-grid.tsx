@@ -21,6 +21,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { useShallow } from "zustand/react/shallow";
 
 import { WidgetFrame } from "@/components/dashboard/widget-frame";
+import { WidgetEmptyState } from "@/components/dashboard/widget-empty-state";
 import { BarChartWidget } from "@/components/widgets/bar-chart-widget";
 import { LineChartWidget } from "@/components/widgets/line-chart-widget";
 import { PieChartWidget } from "@/components/widgets/pie-chart-widget";
@@ -28,33 +29,35 @@ import { SummaryWidget } from "@/components/widgets/summary-widget";
 import { TransactionsWidget } from "@/components/widgets/transactions-widget";
 import { widgetSizeClassNames } from "@/lib/constants";
 import { useDashboardStore } from "@/store/dashboard-store";
-import type { DashboardComputation, WidgetLayoutItem } from "@/types/dashboard";
+import type { DashboardComputation, WidgetKind, WidgetLayoutItem } from "@/types/dashboard";
 
 interface DashboardGridProps {
   data: DashboardComputation;
 }
 
+const widgetRenderers: Record<WidgetKind, (data: DashboardComputation) => React.ReactNode> = {
+  summary: (data) => (
+    <SummaryWidget summary={data.summary} insight={data.insight} livePulse={data.livePulse} />
+  ),
+  line: (data) => <LineChartWidget series={data.lineSeries} />,
+  bar: (data) => <BarChartWidget series={data.barSeries} />,
+  pie: (data) => <PieChartWidget series={data.pieSeries} />,
+  table: (data) => <TransactionsWidget transactions={data.transactions} />,
+};
+
 function renderWidgetContent(widget: WidgetLayoutItem, data: DashboardComputation) {
-  switch (widget.kind) {
-    case "summary":
-      return (
-        <SummaryWidget
-          summary={data.summary}
-          insight={data.insight}
-          livePulse={data.livePulse}
-        />
-      );
-    case "line":
-      return <LineChartWidget series={data.lineSeries} />;
-    case "bar":
-      return <BarChartWidget series={data.barSeries} />;
-    case "pie":
-      return <PieChartWidget series={data.pieSeries} />;
-    case "table":
-      return <TransactionsWidget transactions={data.transactions} />;
-    default:
-      return null;
+  const renderer = widgetRenderers[widget.kind];
+
+  if (!renderer) {
+    return (
+      <WidgetEmptyState
+        title="Widget unavailable"
+        description="This widget type is not registered in the current dashboard build."
+      />
+    );
   }
+
+  return renderer(data);
 }
 
 function StaticWidget({

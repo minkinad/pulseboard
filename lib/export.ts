@@ -28,11 +28,14 @@ export function downloadTransactionsCsv(transactions: FinanceTransaction[]) {
   );
 
   const csv = [headers.join(","), ...lines].join("\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const blob = new Blob(["\uFEFF", csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
   link.download = "pulseboard-transactions.csv";
+  link.rel = "noopener";
+  document.body.append(link);
   link.click();
-  URL.revokeObjectURL(url);
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 0);
 }
