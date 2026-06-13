@@ -44,9 +44,7 @@ html {
 
 body {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(148, 163, 184, 0.14), transparent 24rem),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 1));
+  background: rgb(var(--muted));
   color: rgb(var(--foreground));
   font-family: var(--font-manrope), sans-serif;
   overflow-x: hidden;
@@ -62,7 +60,7 @@ body {
   h3,
   h4 {
     font-family: var(--font-manrope), sans-serif;
-    letter-spacing: -0.035em;
+    letter-spacing: 0;
   }
 
   button,
@@ -86,20 +84,24 @@ body {
 
 @layer components {
   .surface-panel {
-    @apply rounded-2xl border bg-card;
+    @apply rounded-lg border bg-card;
     border-color: rgb(var(--stroke));
     box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
   }
 
   .soft-card {
-    @apply rounded-xl border bg-card;
+    @apply rounded-lg border bg-card;
     border-color: rgb(var(--stroke));
   }
 
   .control-base {
-    @apply inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium text-foreground transition;
+    @apply inline-flex h-10 items-center gap-2 rounded-md border px-4 text-sm font-medium text-foreground transition;
     border-color: rgb(var(--stroke));
     background: rgb(var(--card));
+  }
+
+  .icon-button {
+    @apply w-10 justify-center px-0;
   }
 
   .control-base:hover {
@@ -120,7 +122,7 @@ body {
   }
 
   .mono-pill {
-    @apply inline-flex items-center gap-2 rounded-full border px-3 py-1.5;
+    @apply inline-flex items-center gap-2 rounded-md border px-3 py-1.5;
     border-color: rgb(var(--stroke));
     background: rgb(var(--muted));
     color: rgb(var(--foreground) / 0.74);

@@ -30,7 +30,7 @@ function SelectField({
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="field-shell h-11 w-full px-4 text-sm text-slate-950 transition focus:border-slate-300"
+        className="field-shell h-10 w-full px-3 text-sm text-slate-950 transition focus:border-slate-300"
       >
         {children}
       </select>
@@ -52,14 +52,14 @@ export function FiltersBar({
   );
 
   return (
-    <section className="surface-panel p-5 sm:p-6">
+    <section className="surface-panel p-4">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
         <div className="flex items-center gap-3">
-          <span className="rounded-lg border border-stroke bg-slate-50 p-3 text-slate-700">
+          <span className="rounded-md border border-stroke bg-slate-50 p-2.5 text-slate-700">
             <SlidersHorizontal className="h-5 w-5" />
           </span>
-          <div>
-            <h2 className="text-xl font-semibold text-slate-950">Filters</h2>
+          <div className="min-w-0">
+            <h2 className="text-lg font-semibold text-slate-950">Filters</h2>
             <p className="mt-1 text-sm text-slate-500">
               {resultCount} matching transactions across the active dashboard slice.
             </p>
@@ -86,9 +86,9 @@ export function FiltersBar({
         </div>
       </div>
 
-      <hr className="section-divider my-5" />
+      <hr className="section-divider my-4" />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         <SelectField
           label="Date range"
           value={filters.dateRange}

@@ -26,19 +26,19 @@ function SidebarContent({
     <div className="flex h-full flex-col bg-white">
       <div className="flex items-center justify-between border-b border-stroke px-5 py-5">
         <div className="flex items-center gap-3">
-          <div className="overflow-hidden rounded-2xl border border-slate-950/10 bg-slate-950 p-1.5 shadow-soft">
+          <div className="overflow-hidden rounded-lg border border-slate-950/10 bg-slate-950 p-1.5">
             <Image
               src="/branding/pulseboard.svg"
               alt="Pulseboard logo"
               width={52}
               height={52}
-              className="h-[52px] w-[52px] rounded-xl object-cover"
+              className="h-[52px] w-[52px] rounded-md object-cover"
               priority
             />
           </div>
           <div>
             <p className="tiny-label">Pulseboard</p>
-            <h2 className="mt-2 text-[1.55rem] font-semibold tracking-[-0.04em] text-slate-950">
+            <h2 className="mt-2 text-2xl font-semibold text-slate-950">
               Analytics
             </h2>
           </div>
@@ -56,7 +56,7 @@ function SidebarContent({
       <div className="flex-1 overflow-y-auto px-4 py-5">
         <div className="soft-card bg-slate-50 p-4 text-sm text-slate-600">
           <p className="tiny-label">Workspace</p>
-          <p className="mt-3 text-lg font-semibold text-slate-950">
+          <p className="mt-3 text-base font-semibold text-slate-950">
             Review cashflow, adjust the layout, and keep a few saved dashboard states.
           </p>
         </div>
@@ -74,7 +74,7 @@ function SidebarContent({
                 className="soft-card px-4 py-3 transition hover:bg-slate-50"
               >
                 <div className="flex items-center gap-3">
-                  <span className="rounded-lg border border-stroke bg-slate-50 p-2 text-slate-700">
+                  <span className="rounded-md border border-stroke bg-slate-50 p-2 text-slate-700">
                     <Icon className="h-4 w-4" />
                   </span>
                   <div>
@@ -95,7 +95,7 @@ function SidebarContent({
 
           <div className="mt-3 space-y-3">
             {savedLayouts.length === 0 ? (
-              <div className="rounded-xl border border-dashed border-stroke bg-slate-50 p-4 text-sm text-slate-500">
+              <div className="rounded-lg border border-dashed border-stroke bg-slate-50 p-4 text-sm text-slate-500">
                 Save your first layout snapshot from the filter bar to keep different dashboard setups.
               </div>
             ) : (
@@ -141,7 +141,7 @@ function SidebarContent({
 export function Sidebar(props: SidebarProps) {
   return (
     <>
-      <aside className="fixed inset-y-4 left-4 z-30 hidden w-[268px] overflow-hidden rounded-2xl border border-stroke bg-card lg:block">
+      <aside className="fixed inset-y-4 left-4 z-30 hidden w-[268px] overflow-hidden rounded-lg border border-stroke bg-card lg:block">
         <SidebarContent {...props} />
       </aside>
 
@@ -162,7 +162,7 @@ export function Sidebar(props: SidebarProps) {
               animate={{ x: 0 }}
               exit={{ x: -340 }}
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
-              className="fixed inset-y-3 left-3 z-50 w-[min(280px,calc(100vw-1.5rem))] overflow-hidden rounded-2xl border border-stroke bg-card lg:hidden"
+              className="fixed inset-y-3 left-3 z-50 w-[min(280px,calc(100vw-1.5rem))] overflow-hidden rounded-lg border border-stroke bg-card lg:hidden"
             >
               <SidebarContent {...props} />
             </motion.aside>

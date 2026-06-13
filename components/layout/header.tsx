@@ -24,11 +24,11 @@ export function Header({ onMenuClick, onExport, onRefresh, livePulse }: HeaderPr
   );
 
   return (
-    <header className="sticky top-0 z-20 px-4 pt-4 sm:px-6 lg:px-8">
-      <div className="mx-auto flex max-w-[1180px] flex-wrap items-center gap-3 rounded-2xl border border-stroke bg-white/95 px-4 py-3 shadow-sm backdrop-blur sm:px-5">
+    <header className="sticky top-0 z-20 border-b border-stroke bg-white/90 px-4 py-3 backdrop-blur sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-3">
         <button
           type="button"
-          className="control-base shrink-0 lg:hidden"
+          className="control-base icon-button shrink-0 lg:hidden"
           onClick={onMenuClick}
           aria-label="Open navigation"
         >
@@ -49,7 +49,7 @@ export function Header({ onMenuClick, onExport, onRefresh, livePulse }: HeaderPr
           />
         </div>
 
-        <div className="order-4 flex w-full items-center justify-between gap-2 rounded-2xl border border-stroke bg-slate-50 px-3 py-2 text-sm text-slate-600 md:order-none md:w-auto md:justify-start md:rounded-full">
+        <div className="order-4 flex w-full items-center justify-between gap-2 rounded-md border border-stroke bg-slate-50 px-3 py-2 text-sm text-slate-600 md:order-none md:w-auto md:justify-start">
           <span className="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
           <span>{livePulse.activeStreams} live signals</span>
           <span
@@ -72,10 +72,10 @@ export function Header({ onMenuClick, onExport, onRefresh, livePulse }: HeaderPr
             <Download className="h-4 w-4" />
             <span className="hidden sm:inline">Export CSV</span>
           </button>
-          <button type="button" className="control-base px-3" aria-label="Notifications">
+          <button type="button" className="control-base icon-button" aria-label="Notifications">
             <Bell className="h-4 w-4" />
           </button>
-          <div className="hidden h-11 w-11 items-center justify-center rounded-full border border-stroke bg-slate-50 text-sm font-semibold text-slate-700 sm:flex">
+          <div className="hidden h-10 w-10 items-center justify-center rounded-md border border-stroke bg-slate-50 text-sm font-semibold text-slate-700 sm:flex">
             AB
           </div>
         </div>

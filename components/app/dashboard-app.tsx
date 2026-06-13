@@ -7,6 +7,7 @@ import { useShallow } from "zustand/react/shallow";
 import { DashboardGrid } from "@/components/dashboard/dashboard-grid";
 import { ErrorState } from "@/components/dashboard/error-state";
 import { FiltersBar } from "@/components/dashboard/filters-bar";
+import { LoadingState } from "@/components/dashboard/loading-state";
 import { Header } from "@/components/layout/header";
 import { Sidebar } from "@/components/layout/sidebar";
 import { useDashboardData } from "@/hooks/use-dashboard-data";
@@ -51,8 +52,6 @@ export function DashboardApp() {
 
   return (
     <div className="relative min-h-screen overflow-x-clip bg-slate-50">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(circle_at_top_left,_rgba(148,163,184,0.18),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(15,23,42,0.08),_transparent_34%)]" />
-
       <Sidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -72,40 +71,41 @@ export function DashboardApp() {
           livePulse={dashboard.livePulse}
         />
 
-        <main className="px-4 pb-12 pt-5 sm:px-6 lg:px-8">
+        <main className="px-4 pb-10 pt-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="mx-auto flex w-full max-w-[1180px] flex-col gap-6"
+            className="mx-auto flex w-full max-w-[1240px] flex-col gap-4"
           >
-            <section className="surface-panel relative overflow-hidden px-6 py-6 sm:px-8">
-              <div className="pointer-events-none absolute inset-y-0 right-0 w-40 bg-[linear-gradient(135deg,rgba(255,255,255,0),rgba(148,163,184,0.12))]" />
-              <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
-                <div className="max-w-3xl">
-                  <p className="tiny-label">Dashboard</p>
-                  <h1 className="mt-3 text-[clamp(1.8rem,4vw,3rem)] font-semibold tracking-[-0.04em] text-slate-950">
-                    Simple analytics overview for your finance flow.
-                  </h1>
-                  <p className="mt-3 max-w-[62ch] text-sm leading-7 text-slate-600 sm:text-base">
-                    A clean, light dashboard with flexible widgets, quick filters, and export for
-                    the slice you are reviewing right now.
+            <section className="flex flex-col gap-3 border-b border-stroke pb-4 lg:flex-row lg:items-end lg:justify-between">
+              <div className="min-w-0">
+                <p className="tiny-label">Pulseboard</p>
+                <h1 className="mt-2 text-2xl font-semibold text-slate-950 sm:text-3xl">
+                  Finance operations dashboard
+                </h1>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+                  Transaction analytics, layout snapshots, and export controls for the active
+                  review slice.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 sm:w-[390px]">
+                <div className="rounded-md border border-stroke bg-white px-3 py-2">
+                  <p className="tiny-label">Widgets</p>
+                  <p className="mt-1 text-xl font-semibold text-slate-950">{widgets.length}</p>
+                </div>
+                <div className="rounded-md border border-stroke bg-white px-3 py-2">
+                  <p className="tiny-label">Layouts</p>
+                  <p className="mt-1 text-xl font-semibold text-slate-950">
+                    {savedLayouts.length}
                   </p>
                 </div>
-
-                <div className="grid gap-3 text-sm text-slate-600 sm:grid-cols-3 lg:grid-cols-1">
-                  <div className="soft-card p-4">
-                    <p className="tiny-label">Widgets</p>
-                    <p className="mt-3 text-3xl font-semibold text-slate-950">{widgets.length}</p>
-                  </div>
-                  <div className="soft-card p-4">
-                    <p className="tiny-label">Snapshots</p>
-                    <p className="mt-3 text-3xl font-semibold text-slate-950">{savedLayouts.length}</p>
-                  </div>
-                  <div className="soft-card p-4">
-                    <p className="tiny-label">Mode</p>
-                    <p className="mt-3 text-3xl font-semibold text-slate-950">Static</p>
-                  </div>
+                <div className="rounded-md border border-stroke bg-white px-3 py-2">
+                  <p className="tiny-label">Data</p>
+                  <p className="mt-1 text-xl font-semibold text-slate-950">
+                    {status === "loading" ? "..." : dashboard.transactions.length}
+                  </p>
                 </div>
               </div>
             </section>
@@ -120,6 +120,16 @@ export function DashboardApp() {
             <AnimatePresence mode="wait">
               {status === "error" ? (
                 <ErrorState key="error" message={error ?? "Unknown loading error."} onRetry={refresh} />
+              ) : status === "loading" ? (
+                <motion.div
+                  key="loading"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                >
+                  <LoadingState />
+                </motion.div>
               ) : (
                 <motion.div
                   key="ready"
