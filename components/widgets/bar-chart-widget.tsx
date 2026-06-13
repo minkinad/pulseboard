@@ -21,7 +21,7 @@ export function BarChartWidget({ series }: BarChartWidgetProps) {
   }
 
   return (
-    <div className="h-full min-h-[290px]">
+    <div className="h-full min-h-0 overflow-hidden">
       <Bar
         data={{
           labels: series.map((datum) => datum.label),
@@ -46,6 +46,9 @@ export function BarChartWidget({ series }: BarChartWidgetProps) {
             x: {
               ticks: {
                 color: chartPalette.text,
+                autoSkip: true,
+                maxTicksLimit: 6,
+                maxRotation: 0,
               },
               grid: {
                 display: false,

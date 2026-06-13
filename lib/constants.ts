@@ -76,11 +76,11 @@ export const widgetResizeOrder: Record<string, WidgetSize[]> = {
 };
 
 export const widgetSizeClassNames: Record<WidgetSize, string> = {
-  compact: "col-span-12 md:col-span-6 xl:col-span-4 min-h-[340px]",
-  standard: "col-span-12 md:col-span-6 xl:col-span-6 min-h-[360px]",
-  wide: "col-span-12 xl:col-span-8 min-h-[380px]",
-  hero: "col-span-12 min-h-[260px]",
-  tall: "col-span-12 md:col-span-6 xl:col-span-4 min-h-[460px]",
+  compact: "col-span-12 md:col-span-6 xl:col-span-4 min-h-[380px]",
+  standard: "col-span-12 md:col-span-6 xl:col-span-6 min-h-[420px]",
+  wide: "col-span-12 xl:col-span-8 min-h-[420px]",
+  hero: "col-span-12 min-h-[390px]",
+  tall: "col-span-12 md:col-span-6 xl:col-span-4 min-h-[520px]",
 };
 
 export const sidebarNavigation = [

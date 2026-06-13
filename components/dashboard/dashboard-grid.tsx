@@ -151,7 +151,7 @@ export function DashboardGrid({ data }: DashboardGridProps) {
 
   if (!isMounted) {
     return (
-      <section className="grid grid-cols-12 gap-5">
+      <section className="grid grid-cols-12 items-stretch gap-4">
         {widgets.map((widget) => (
           <StaticWidget key={widget.id} widget={widget} data={data} />
         ))}
@@ -162,7 +162,7 @@ export function DashboardGrid({ data }: DashboardGridProps) {
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={widgets.map((widget) => widget.id)} strategy={rectSortingStrategy}>
-        <section className="grid grid-cols-12 gap-5">
+        <section className="grid grid-cols-12 items-stretch gap-4">
           {widgets.map((widget) => (
             <SortableWidget key={widget.id} widget={widget} data={data} />
           ))}

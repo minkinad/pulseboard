@@ -25,10 +25,10 @@ export function TransactionsWidget({ transactions }: TransactionsWidgetProps) {
   }
 
   return (
-    <div className="h-full overflow-hidden rounded-xl border border-stroke bg-white">
+    <div className="h-full min-h-0 overflow-hidden rounded-md border border-stroke bg-white">
       <div className="h-full overflow-auto">
-        <div className="min-w-[720px]">
-          <div className="sticky top-0 z-10 grid grid-cols-[1.4fr_0.8fr_0.9fr_0.8fr] gap-4 border-b border-stroke bg-slate-50/95 px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-slate-500 backdrop-blur">
+        <div className="min-w-[680px]">
+          <div className="sticky top-0 z-10 grid grid-cols-[1.35fr_0.85fr_0.9fr_0.8fr] gap-4 border-b border-stroke bg-slate-50/95 px-4 py-3 font-mono text-[11px] uppercase text-slate-500 backdrop-blur">
             <span>Counterparty</span>
             <span>Category</span>
             <span>Date</span>
@@ -41,12 +41,12 @@ export function TransactionsWidget({ transactions }: TransactionsWidgetProps) {
             return (
               <div
                 key={transaction.id}
-                className="grid grid-cols-[1.4fr_0.8fr_0.9fr_0.8fr] gap-4 border-b border-stroke px-5 py-4 text-sm transition hover:bg-slate-50/70 last:border-b-0"
+                className="grid grid-cols-[1.35fr_0.85fr_0.9fr_0.8fr] gap-4 border-b border-stroke px-4 py-3 text-sm transition hover:bg-slate-50/70 last:border-b-0"
               >
-                <div className="flex items-start gap-3">
+                <div className="flex min-w-0 items-start gap-3">
                   <span
                     className={cn(
-                      "mt-1 rounded-lg border p-2",
+                      "mt-1 shrink-0 rounded-md border p-2",
                       incoming
                         ? "border-emerald-200 bg-emerald-50 text-emerald-600"
                         : "border-red-200 bg-red-50 text-red-600",
@@ -58,14 +58,16 @@ export function TransactionsWidget({ transactions }: TransactionsWidgetProps) {
                       <ArrowDownLeft className="h-4 w-4" />
                     )}
                   </span>
-                  <div>
-                    <p className="font-semibold text-slate-950">{transaction.counterparty}</p>
-                    <p className="mt-1 max-w-[30ch] text-xs leading-5 text-slate-500">
+                  <div className="min-w-0">
+                    <p className="truncate font-semibold text-slate-950">
+                      {transaction.counterparty}
+                    </p>
+                    <p className="mt-1 line-clamp-2 text-xs leading-5 text-slate-500">
                       {transaction.note}
                     </p>
                   </div>
                 </div>
-                <div className="pt-1 text-slate-600">{transaction.category}</div>
+                <div className="truncate pt-1 text-slate-600">{transaction.category}</div>
                 <div className="pt-1 font-mono text-[12px] text-slate-600">
                   {formatDateWithYear(transaction.date)}
                 </div>

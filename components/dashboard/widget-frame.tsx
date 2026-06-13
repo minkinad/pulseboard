@@ -29,22 +29,24 @@ export function WidgetFrame({
     <motion.section
       layout
       className={cn(
-        "surface-panel flex h-full flex-col overflow-hidden px-5 py-5 sm:px-6 sm:py-6",
+        "surface-panel flex h-full min-w-0 flex-col overflow-hidden p-4 sm:p-5",
         isDragging && "border-slate-300 bg-slate-50",
       )}
     >
-      <div className="mb-5 flex flex-col gap-4 border-b border-stroke pb-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <p className="text-lg font-semibold text-slate-950 sm:text-xl">{widget.title}</p>
-          <p className="mt-1 max-w-[48ch] text-sm leading-6 text-slate-500">
+      <div className="mb-4 flex min-w-0 flex-col gap-3 border-b border-stroke pb-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <p className="truncate text-base font-semibold text-slate-950 sm:text-lg">
+            {widget.title}
+          </p>
+          <p className="mt-1 line-clamp-2 max-w-[56ch] text-sm leading-6 text-slate-500">
             {widget.description}
           </p>
         </div>
 
-        <div className="flex w-full flex-wrap items-center justify-end gap-2 sm:w-auto sm:flex-nowrap">
+        <div className="flex shrink-0 items-center justify-end gap-2">
           <button
             type="button"
-            className="control-base shrink-0 px-3"
+            className="control-base icon-button shrink-0"
             onClick={onShrink}
             aria-label={`Shrink ${widget.title}`}
           >
@@ -52,7 +54,7 @@ export function WidgetFrame({
           </button>
           <button
             type="button"
-            className="control-base shrink-0 px-3"
+            className="control-base icon-button shrink-0"
             onClick={onGrow}
             aria-label={`Resize ${widget.title}`}
           >
@@ -60,7 +62,7 @@ export function WidgetFrame({
           </button>
           <button
             type="button"
-            className="control-base shrink-0 cursor-grab px-3 active:cursor-grabbing"
+            className="control-base icon-button shrink-0 cursor-grab active:cursor-grabbing"
             aria-label={`Drag ${widget.title}`}
             {...attributes}
             {...listeners}
@@ -70,7 +72,7 @@ export function WidgetFrame({
         </div>
       </div>
 
-      <div className="min-h-0 flex-1">{children}</div>
+      <div className="min-h-0 flex-1 overflow-hidden">{children}</div>
     </motion.section>
   );
 }

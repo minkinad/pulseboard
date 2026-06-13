@@ -26,9 +26,9 @@ ChartJS.register(
 export const chartPalette = {
   text: "#0F172A",
   muted: "rgba(148, 163, 184, 0.25)",
-  accent: "#0F172A",
-  accentSoft: "rgba(15, 23, 42, 0.08)",
-  secondary: "#64748B",
-  secondarySoft: "rgba(100, 116, 139, 0.08)",
-  pie: ["#0F172A", "#475569", "#94A3B8", "#CBD5E1", "#334155", "#64748B"],
+  accent: "#2563EB",
+  accentSoft: "rgba(37, 99, 235, 0.12)",
+  secondary: "#EA580C",
+  secondarySoft: "rgba(234, 88, 12, 0.1)",
+  pie: ["#2563EB", "#16A34A", "#EA580C", "#7C3AED", "#0891B2", "#DB2777"],
 } as const;

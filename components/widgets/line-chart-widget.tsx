@@ -22,7 +22,7 @@ export function LineChartWidget({ series }: LineChartWidgetProps) {
   }
 
   return (
-    <div className="h-full min-h-[290px]">
+    <div className="h-full min-h-0 overflow-hidden">
       <Line
         data={{
           labels: series.map((datum) => formatDateLabel(datum.label)),
@@ -69,6 +69,7 @@ export function LineChartWidget({ series }: LineChartWidgetProps) {
               ticks: {
                 color: chartPalette.text,
                 maxTicksLimit: 7,
+                autoSkip: true,
               },
               grid: {
                 color: chartPalette.muted,

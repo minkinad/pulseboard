@@ -22,8 +22,8 @@ export function PieChartWidget({ series }: PieChartWidgetProps) {
   }
 
   return (
-    <div className="grid h-full gap-4 xl:grid-cols-[1.2fr_0.8fr]">
-      <div className="min-h-[240px]">
+    <div className="grid h-full min-h-0 gap-4 overflow-hidden xl:grid-cols-[1.1fr_0.9fr]">
+      <div className="min-h-0">
         <Doughnut
           data={{
             labels: series.map((datum) => datum.label),
@@ -49,23 +49,23 @@ export function PieChartWidget({ series }: PieChartWidgetProps) {
         />
       </div>
 
-      <div className="space-y-3">
+      <div className="min-h-0 space-y-2 overflow-auto pr-1">
         {series.map((datum, index) => (
           <div
             key={datum.label}
-            className="soft-card flex items-center justify-between px-4 py-3"
+            className="flex min-w-0 items-center justify-between gap-3 rounded-md bg-slate-50 px-3 py-2.5"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex min-w-0 items-center gap-3">
               <span
-                className="h-3 w-3 rounded-full"
+                className="h-3 w-3 shrink-0 rounded-full"
                 style={{
                   backgroundColor:
                     chartPalette.pie[index % chartPalette.pie.length],
                 }}
               />
-              <span className="text-sm font-medium">{datum.label}</span>
+              <span className="truncate text-sm font-medium">{datum.label}</span>
             </div>
-            <span className="text-sm text-foreground/70">{formatCurrency(datum.value)}</span>
+            <span className="shrink-0 text-sm text-foreground/70">{formatCurrency(datum.value)}</span>
           </div>
         ))}
       </div>
